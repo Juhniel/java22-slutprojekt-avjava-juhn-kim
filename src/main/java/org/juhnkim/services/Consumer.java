@@ -1,7 +1,10 @@
-package main;
+package org.juhnkim.services;
+
+import java.util.Random;
 
 public class Consumer implements Runnable {
-	Buffer buffer = null;
+	private final Buffer buffer;
+	private final Random random = new Random();
 	boolean isRunning = true;
 
 	public Consumer(Buffer buffer) {
@@ -10,10 +13,9 @@ public class Consumer implements Runnable {
 
 	@Override
 	public void run() {
-
 		while (isRunning) {
 			try {
-				Thread.sleep(2000);
+				Thread.sleep((random.nextInt(10) + 1) * 1000);
 				System.out.println("Consumed: " + buffer.remove());
 			} catch (InterruptedException e) {
 

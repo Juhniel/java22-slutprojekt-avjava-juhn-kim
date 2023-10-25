@@ -1,17 +1,38 @@
-package main;
+package org.juhnkim.controllers;
+
+import org.juhnkim.models.Message;
+import org.juhnkim.services.Buffer;
+import org.juhnkim.services.Producer;
+import org.juhnkim.views.ProductionRegulatorGUI;
 
 public class Controller {
-
-	public static void main(String[] args) {
-		Buffer buffer = new Buffer();
-		
-		Producer producer = new Producer(buffer);
-		Thread producerThread = new Thread(producer);
-		producerThread.start();
-		
-		Consumer consumer = new Consumer(buffer);
-		Thread consumerThread = new Thread(consumer);
-		consumerThread.start();
-		
+	private Producer producer;
+	private final Message message;
+	private final ProductionRegulatorGUI productionRegulatorGUI;
+	public Controller(Message message, ProductionRegulatorGUI productionRegulatorGUI) {
+		this.message = message;
+		this.productionRegulatorGUI = productionRegulatorGUI;
 	}
+
+	private void initController() {
+		productionRegulatorGUI.getAddButton().addActionListener(e -> addProducer());
+		productionRegulatorGUI.getRemoveButton().addActionListener(e -> removeProducer());
+		productionRegulatorGUI.getSaveButton().addActionListener(e -> saveCurrentState());
+		productionRegulatorGUI.getLoadButton().addActionListener(e -> loadCurrentState());
+	}
+
+	private void addProducer() {
+		producer = new Producer(new Buffer());
+		producer.run();
+	}
+
+	private void removeProducer() {
+		Thread.currentThread().interrupt();
+	}
+
+
+
+
+
+
 }
