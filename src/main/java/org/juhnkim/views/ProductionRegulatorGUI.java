@@ -2,27 +2,29 @@ package org.juhnkim.views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class ProductionRegulatorGUI {
-
+    private JProgressBar progressBar;
+    private JFrame frame;
     private JButton addButton, removeButton, saveButton, loadButton;
 
     public void initializeUI() {
         // Create the main window (frame)
-        JFrame frame = new JFrame("My Swing App");
+        frame = new JFrame("Production Regulator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 200);
 
         // Create a panel to hold all other components
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
 
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
 
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         // Create buttons and add them to button panel
         addButton = new JButton("+");
         removeButton = new JButton("-");
@@ -33,39 +35,22 @@ public class ProductionRegulatorGUI {
         buttonPanel.add(saveButton);
         buttonPanel.add(loadButton);
 
-        // Create a progress bar
-        JProgressBar progressBar = new JProgressBar(0, 100);
+        // Create a progress bar and add it to the center panel
+        progressBar = new JProgressBar(0, 100);
+        progressBar.setMaximumSize(new Dimension(Integer.MAX_VALUE, progressBar.getPreferredSize().height));
+        centerPanel.add(progressBar);
 
-        // Create a text field
-        JTextField textField = new JTextField(20);
 
-//        // Add listeners to buttons (You can replace these with your own actions)
-//        addButton.addActionListener(e -> {
-//            // Example: Increase progress bar value
-//            progressBar.setValue(progressBar.getValue() + 10);
-//        });
-//
-//        removeButton.addActionListener(e -> {
-//            // Example: Decrease progress bar value
-//            progressBar.setValue(progressBar.getValue() - 10);
-//        });
-//
-//        saveButton.addActionListener(e -> {
-//            // Example: Save text field value
-//            System.out.println("Saved: " + textField.getText());
-//        });
-//
-//        loadButton.addActionListener(e -> {
-//            // Example: Load value into text field
-//            textField.setText("Loaded Value");
-//        });
+        // Create a text area for logs
+        JTextArea textArea = new JTextArea(5, 20); // 5 rows, 20 columns
+        JScrollPane scrollPane = new JScrollPane(textArea);
 
-        // Add components to panel
-        panel.add(buttonPanel, BorderLayout.NORTH);
-        panel.add(progressBar, BorderLayout.CENTER);
-        panel.add(textField, BorderLayout.EAST);
+        // Add components to main panel
+        mainPanel.add(buttonPanel, BorderLayout.NORTH);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+        mainPanel.add(scrollPane, BorderLayout.EAST);
 
-        frame.add(panel);
+        frame.add(mainPanel);
 
         frame.setVisible(true);
     }
@@ -102,19 +87,25 @@ public class ProductionRegulatorGUI {
         this.loadButton = loadButton;
     }
 
+    public JFrame getFrame() {
+        return frame;
+    }
 
-    //    public static void main(String[] args) {
-//        Buffer buffer = new Buffer();
-//
-//        Producer producer = new Producer(buffer);
-//        Thread producerThread = new Thread(producer);
-//        producerThread.start();
-//
-//        Consumer consumer = new Consumer(buffer);
-//        Thread consumerThread = new Thread(consumer);
-//        consumerThread.start();
-//
-//    }
+    public void setFrame(JFrame frame) {
+        this.frame = frame;
+    }
+
+    public JProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    public void setProgressBar(JProgressBar progressBar) {
+        this.progressBar = progressBar;
+    }
+
+    public void updateProgressBar(int balancePercentage) {
+        progressBar.setValue(balancePercentage);
+    }
 }
 
 

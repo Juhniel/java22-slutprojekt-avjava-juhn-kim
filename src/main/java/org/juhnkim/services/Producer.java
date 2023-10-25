@@ -17,14 +17,19 @@ public class Producer implements Runnable {
 
 	@Override
 	public void run() {
+		String text = "Random text";
 		while (isRunning) {
 			try {
 				Thread.sleep((random.nextInt(10) + 1) * 1000);
-				buffer.add(new Message("Random message", LocalDate.now(), LocalTime.now()));
+				buffer.add(new Message(text, LocalDate.now(), LocalTime.now()));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void stop() {
+		isRunning = false;
 	}
 
 }

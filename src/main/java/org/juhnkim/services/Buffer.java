@@ -7,25 +7,36 @@ import java.util.Queue;
 
 public class Buffer {
 
-	Queue<Message> buffer = new LinkedList<>();
+	private final Queue<Message> queue;
+	private final int capacity;
 	
-	
+	public Buffer(int capacity) {
+		this.capacity = capacity;
+		this.queue = new LinkedList<>();
+	}
+
 	public synchronized void add(Message message) {
-		buffer.add(message);
+		queue.add(message);
 		notify();
-		System.out.println(buffer);
+		System.out.println("Produced: " + queue);
 	}
 	
 	public synchronized Message remove() {
-		if(buffer.isEmpty()) {
+		if(queue.isEmpty()) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		return buffer.remove();
+		return queue.remove();
 	}
 	
-	
+	public int getMessageCount() {
+		return queue.size();
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
 }

@@ -22,7 +22,6 @@ public class Consumer implements Runnable {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 }

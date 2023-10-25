@@ -10,6 +10,9 @@ public class Message {
 	private LocalDate localDate;
 	private LocalTime localTime;
 
+	public Message() {
+
+	}
 	public Message(String body, LocalDate localDate, LocalTime localTime) {
 		this.id = String.valueOf(UUID.randomUUID());
 		this.body = body;
