@@ -37,6 +37,7 @@ public class ProductionRegulatorGUI {
 
         // Create a progress bar and add it to the center panel
         progressBar = new JProgressBar(0, 100);
+        progressBar.setStringPainted(true);
         progressBar.setMaximumSize(new Dimension(Integer.MAX_VALUE, progressBar.getPreferredSize().height));
         centerPanel.add(progressBar);
 
@@ -105,6 +106,15 @@ public class ProductionRegulatorGUI {
 
     public void updateProgressBar(int balancePercentage) {
         progressBar.setValue(balancePercentage);
+        progressBar.setString(balancePercentage + "%");
+
+        if (balancePercentage <= 20) {
+            progressBar.setForeground(Color.RED);
+        } else if (balancePercentage <= 80) {
+            progressBar.setForeground(Color.ORANGE);
+        } else {
+            progressBar.setForeground(Color.GREEN);
+        }
     }
 }
 

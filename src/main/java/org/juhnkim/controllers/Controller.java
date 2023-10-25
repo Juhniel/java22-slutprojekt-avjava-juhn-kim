@@ -46,7 +46,7 @@ public class Controller {
 	}
 
 	private void updateProgressBar() {
-		int balancePercentage = (buffer.getMessageCount() / buffer.getCapacity()) * 100;
+		int balancePercentage = (int)(((float) buffer.getMessageCount() / (float) buffer.getCapacity()) * 100);
 
 		// Update the GUI
 		productionRegulatorGUI.updateProgressBar(balancePercentage);
