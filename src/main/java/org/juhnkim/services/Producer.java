@@ -9,7 +9,7 @@ import java.util.Random;
 public class Producer implements Runnable {
 	private final Buffer buffer;
 	private final Random random = new Random();
-	boolean isRunning = true;
+	volatile boolean isRunning = true;
 
 	public Producer(Buffer buffer) {
 		this.buffer = buffer;

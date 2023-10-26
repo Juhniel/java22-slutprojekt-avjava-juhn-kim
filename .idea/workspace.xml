@@ -5,7 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="Progressbar and methods, changed layout for swing">
+      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/utils/Log.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Producer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/views/ProductionRegulatorGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/views/ProductionRegulatorGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,22 +36,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\juhns\IntelliJ Projects\java22-slutprojekt-avjava-juhn-kim\src\main\resources" />
       <recent name="C:\Users\Juhniel\IdeaProjects\java22-slutprojekt-avjava-juhn-kim\src\main\java\org\juhnkim\controllers" />
       <recent name="C:\Users\Juhniel\IdeaProjects\java22-slutprojekt-avjava-juhn-kim\src\main\java\org\juhnkim\services" />
       <recent name="C:\Users\Juhniel\IdeaProjects\java22-slutprojekt-avjava-juhn-kim\src\main\java\org\juhnkim\models" />
@@ -59,6 +67,7 @@
       <option name="presentableId" value="Default" />
       <updated>1698240585558</updated>
       <workItem from="1698240586719" duration="23884000" />
+      <workItem from="1698304258486" duration="8446000" />
     </task>
     <task id="LOCAL−00001" summary="controller methods for buttons">
       <created>1698255713749</created>

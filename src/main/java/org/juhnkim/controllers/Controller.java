@@ -1,12 +1,19 @@
 package org.juhnkim.controllers;
 
+import org.apache.logging.log4j.core.Logger;
 import org.juhnkim.models.Message;
 import org.juhnkim.services.Buffer;
+import org.juhnkim.services.Consumer;
 import org.juhnkim.services.Producer;
+import org.juhnkim.utils.Log;
 import org.juhnkim.views.ProductionRegulatorGUI;
 
-public class Controller {
+import java.util.LinkedList;
 
+public class Controller {
+	private final Logger logger = Log.getInstance().getLogger();
+	private final LinkedList<Producer> producerLinkedList;
+	private final LinkedList<Consumer> consumersLinkedList;
 	private final Buffer buffer;
 	private Producer producer;
 	private final Message message;
@@ -15,8 +22,11 @@ public class Controller {
 		this.message = message;
 		this.productionRegulatorGUI = productionRegulatorGUI;
 		this.buffer = buffer;
+		this.producerLinkedList = new LinkedList<>();
+		this.consumersLinkedList = new LinkedList<>();
 		initController();
-		new javax.swing.Timer(1000, e -> updateProgressBar()).start();
+		initConsumers();
+		new javax.swing.Timer(2000, e -> updateProgressBar()).start();
 	}
 
 	private void initController() {
@@ -26,14 +36,38 @@ public class Controller {
 		productionRegulatorGUI.getLoadButton().addActionListener(e -> loadSavedState());
 	}
 
-	private void addProducer() {
-		producer = new Producer(buffer);
-		new Thread(producer).start();
+	/**
+	 * Initialize 3-15 consumer threads when the application starts
+	 */
+	private void initConsumers() {
+		int numConsumers = (int) (Math.random() * 15) + 3;
+		for (int i = 0; i < numConsumers; i++) {
+			Consumer consumer = new Consumer(buffer);
+			consumersLinkedList.add(consumer);
+			new Thread(consumer).start();
+		}
+		System.out.println("Consumers: " + consumersLinkedList.size());
 	}
 
+	/**
+	 * Adding a new Producer Thread
+	 */
+	private void addProducer() {
+		producer = new Producer(buffer);
+		producerLinkedList.add(producer);
+		new Thread(producer).start();
+		logger.info("Producer Added");
+		logger.info(producerLinkedList.size());
+	}
+
+	/**
+	 * Removing a Producer Thread
+	 */
 	private void removeProducer() {
-		if(producer != null) {
-			producer.stop();
+		if (!producerLinkedList.isEmpty()) {
+			producerLinkedList.removeLast().stop();
+			logger.info("Producer Removed");
+			logger.info(producerLinkedList.size());
 		}
 	}
 
@@ -45,11 +79,17 @@ public class Controller {
 		// Load the state
 	}
 
+	/**
+	 * Calculate the amount of messages in queue with a capacity of 100
+	 */
 	private void updateProgressBar() {
-		int balancePercentage = (int)(((float) buffer.getMessageCount() / (float) buffer.getCapacity()) * 100);
-
-		// Update the GUI
+		double balancePercentage = ((double) buffer.getMessageCount() / buffer.getCapacity()*100);
 		productionRegulatorGUI.updateProgressBar(balancePercentage);
+	}
+
+	private void averageMessages() {
+		// Summera antal meddelanden för varje sekund
+		// dela med 10 sekunder för att få genomsnittet hur många meddelanden som har producerats
 	}
 
 }

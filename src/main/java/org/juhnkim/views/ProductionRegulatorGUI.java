@@ -15,9 +15,14 @@ public class ProductionRegulatorGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 200);
 
+        // Create a panel for the logs
+        JPanel logPanel = new JPanel();
+        logPanel.setLayout(new BorderLayout());
+
         // Create a panel to hold all other components
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
+
 
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
@@ -47,9 +52,12 @@ public class ProductionRegulatorGUI {
         JScrollPane scrollPane = new JScrollPane(textArea);
 
         // Add components to main panel
+        logPanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Add components to main panel
         mainPanel.add(buttonPanel, BorderLayout.NORTH);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
-        mainPanel.add(scrollPane, BorderLayout.EAST);
+        mainPanel.add(logPanel, BorderLayout.SOUTH);  // Changed this from EAST to SOUTH
 
         frame.add(mainPanel);
 
@@ -104,15 +112,15 @@ public class ProductionRegulatorGUI {
         this.progressBar = progressBar;
     }
 
-    public void updateProgressBar(int balancePercentage) {
-        progressBar.setValue(balancePercentage);
+    public void updateProgressBar(double balancePercentage) {
+        progressBar.setValue((int) balancePercentage);
         progressBar.setString(balancePercentage + "%");
 
-        if (balancePercentage <= 20) {
+        if (balancePercentage >= 0 && balancePercentage <= 20 || balancePercentage >= 80 && balancePercentage <= 100) {
             progressBar.setForeground(Color.RED);
-        } else if (balancePercentage <= 80) {
+        } else if (balancePercentage >= 21 && balancePercentage <= 39 || balancePercentage >= 61 && balancePercentage <= 79) {
             progressBar.setForeground(Color.ORANGE);
-        } else {
+        } else if (balancePercentage >= 40 && balancePercentage <= 60) {
             progressBar.setForeground(Color.GREEN);
         }
     }
