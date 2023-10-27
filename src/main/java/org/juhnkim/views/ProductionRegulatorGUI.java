@@ -7,7 +7,7 @@ import java.awt.*;
 public class ProductionRegulatorGUI {
     private JProgressBar progressBar;
     private JFrame frame;
-    private JButton addButton, removeButton, saveButton, loadButton;
+    private JButton addButton, removeButton, saveButton, loadButton, autoAdjustButton;
 
     public void initializeUI() {
         // Create the main window (frame)
@@ -35,10 +35,12 @@ public class ProductionRegulatorGUI {
         removeButton = new JButton("-");
         saveButton = new JButton("Save");
         loadButton = new JButton("Load");
+        autoAdjustButton = new JButton("Auto-Adjust");
         buttonPanel.add(addButton);
         buttonPanel.add(removeButton);
         buttonPanel.add(saveButton);
         buttonPanel.add(loadButton);
+        buttonPanel.add(autoAdjustButton);
 
         // Create a progress bar and add it to the center panel
         progressBar = new JProgressBar(0, 100);
@@ -112,6 +114,14 @@ public class ProductionRegulatorGUI {
         this.progressBar = progressBar;
     }
 
+    public JButton getAutoAdjustButton() {
+        return autoAdjustButton;
+    }
+
+    public void setAutoAdjustButton(JButton autoAdjustButton) {
+        this.autoAdjustButton = autoAdjustButton;
+    }
+
     public void updateProgressBar(double balancePercentage) {
         progressBar.setValue((int) balancePercentage);
         progressBar.setString(balancePercentage + "%");
@@ -122,6 +132,14 @@ public class ProductionRegulatorGUI {
             progressBar.setForeground(Color.ORANGE);
         } else if (balancePercentage >= 40 && balancePercentage <= 60) {
             progressBar.setForeground(Color.GREEN);
+        }
+    }
+
+    public void autoAdjustColor(boolean autoAdjust) {
+        if(autoAdjust) {
+            autoAdjustButton.setBackground(Color.GREEN);
+        } else {
+            autoAdjustButton.setBackground(null);
         }
     }
 }

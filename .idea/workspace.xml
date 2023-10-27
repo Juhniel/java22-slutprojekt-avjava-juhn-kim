@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="Progressbar and methods, changed layout for swing">
-      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/utils/Log.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+    <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="Log4j">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Producer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Buffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Buffer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/views/ProductionRegulatorGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/views/ProductionRegulatorGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,6 +19,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -67,7 +63,8 @@
       <option name="presentableId" value="Default" />
       <updated>1698240585558</updated>
       <workItem from="1698240586719" duration="23884000" />
-      <workItem from="1698304258486" duration="8446000" />
+      <workItem from="1698304258486" duration="9632000" />
+      <workItem from="1698395698013" duration="10420000" />
     </task>
     <task id="LOCAL−00001" summary="controller methods for buttons">
       <created>1698255713749</created>
@@ -81,7 +78,14 @@
       <option name="presentableId" value="LOCAL−00002" />
       <updated>1698270656646</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL−00003" summary="Log4j">
+      <option name="closed" value="true" />
+      <created>1698330058000</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1698330058000</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -90,6 +94,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="controller methods for buttons" />
     <MESSAGE value="Progressbar and methods, changed layout for swing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Progressbar and methods, changed layout for swing" />
+    <MESSAGE value="Log4j" />
+    <option name="LAST_COMMIT_MESSAGE" value="Log4j" />
   </component>
 </project>
