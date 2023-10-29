@@ -74,7 +74,7 @@ public class Controller implements PropertyChangeListener {
         producerLinkedList.add(producer);
         new Thread(producer).start();
         logger.info("Producer Added");
-        logger.info(producerLinkedList.size());
+        logger.info("New producer count: " + producerLinkedList.size());
     }
 
     /**
@@ -84,7 +84,7 @@ public class Controller implements PropertyChangeListener {
         if (!producerLinkedList.isEmpty()) {
             producerLinkedList.removeLast().stop();
             logger.info("Producer Removed");
-            logger.info(producerLinkedList.size());
+            logger.info("New producer count: " + producerLinkedList.size());
         }
     }
 
@@ -104,6 +104,9 @@ public class Controller implements PropertyChangeListener {
     private void averageMessages() {
         // Summera antal meddelanden för varje sekund
         // dela med 10 sekunder för att få genomsnittet hur många meddelanden som har producerats
+
+//        double calculatedAverage = buffer.getMessageCount()
+//        logger.info("Average value of units: " + calculatedAverage);
     }
 
     long lastProducerAdjustmentTime = 0;
@@ -120,8 +123,10 @@ public class Controller implements PropertyChangeListener {
 
             if (balancePercentage < lowerThreshold) {
                 addProducer();
+                logger.warn("Too few producers! Added a new producer.");
             } else if (balancePercentage > upperThreshold) {
                 removeProducer();
+                logger.warn("Too many producers! Removed a producer.");
             }
 
             lastProducerAdjustmentTime = currentTime;

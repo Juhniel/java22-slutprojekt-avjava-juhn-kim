@@ -70,56 +70,24 @@ public class ProductionRegulatorGUI {
         return addButton;
     }
 
-    public void setAddButton(JButton addButton) {
-        this.addButton = addButton;
-    }
-
     public JButton getRemoveButton() {
         return removeButton;
-    }
-
-    public void setRemoveButton(JButton removeButton) {
-        this.removeButton = removeButton;
     }
 
     public JButton getSaveButton() {
         return saveButton;
     }
 
-    public void setSaveButton(JButton saveButton) {
-        this.saveButton = saveButton;
-    }
-
     public JButton getLoadButton() {
         return loadButton;
-    }
-
-    public void setLoadButton(JButton loadButton) {
-        this.loadButton = loadButton;
     }
 
     public JFrame getFrame() {
         return frame;
     }
 
-    public void setFrame(JFrame frame) {
-        this.frame = frame;
-    }
-
-    public JProgressBar getProgressBar() {
-        return progressBar;
-    }
-
-    public void setProgressBar(JProgressBar progressBar) {
-        this.progressBar = progressBar;
-    }
-
     public JButton getAutoAdjustButton() {
         return autoAdjustButton;
-    }
-
-    public void setAutoAdjustButton(JButton autoAdjustButton) {
-        this.autoAdjustButton = autoAdjustButton;
     }
 
     public void updateProgressBar(double balancePercentage) {

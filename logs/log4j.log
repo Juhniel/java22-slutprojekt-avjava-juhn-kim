@@ -1,0 +1,8 @@
+[INFO ] 2023-10-29 20:34:49.763 [AWT-EventQueue-0] Log - Producer Added
+[INFO ] 2023-10-29 20:34:49.765 [AWT-EventQueue-0] Log - New producer count: 1
+[INFO ] 2023-10-29 20:34:49.914 [AWT-EventQueue-0] Log - Producer Added
+[INFO ] 2023-10-29 20:34:49.914 [AWT-EventQueue-0] Log - New producer count: 2
+[INFO ] 2023-10-29 20:34:50.068 [AWT-EventQueue-0] Log - Producer Added
+[INFO ] 2023-10-29 20:34:50.068 [AWT-EventQueue-0] Log - New producer count: 3
+[INFO ] 2023-10-29 20:34:53.070 [AWT-EventQueue-0] Log - Producer Added
+[INFO ] 2023-10-29 20:34:53.070 [AWT-EventQueue-0] Log - New producer count: 4
