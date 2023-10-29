@@ -1,6 +1,6 @@
 package org.juhnkim.controllers;
 
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 import org.juhnkim.models.Message;
 import org.juhnkim.services.Buffer;
 import org.juhnkim.services.Consumer;
@@ -123,10 +123,10 @@ public class Controller implements PropertyChangeListener {
 
             if (balancePercentage < lowerThreshold) {
                 addProducer();
-                logger.warn("Too few producers! Added a new producer.");
+                logger.info("Too few producers! Added a new producer.");
             } else if (balancePercentage > upperThreshold) {
                 removeProducer();
-                logger.warn("Too many producers! Removed a producer.");
+                logger.info("Too many producers! Removed a producer.");
             }
 
             lastProducerAdjustmentTime = currentTime;
