@@ -9,6 +9,8 @@ public class ProductionRegulatorGUI {
     private JFrame frame;
     private JButton addButton, removeButton, saveButton, loadButton, autoAdjustButton;
 
+    private JTextArea textArea;
+
     public void initializeUI() {
         // Create the main window (frame)
         frame = new JFrame("Production Regulator");
@@ -50,7 +52,7 @@ public class ProductionRegulatorGUI {
 
 
         // Create a text area for logs
-        JTextArea textArea = new JTextArea(5, 20); // 5 rows, 20 columns
+        textArea = new JTextArea(5, 20); // 5 rows, 20 columns
         JScrollPane scrollPane = new JScrollPane(textArea);
 
         // Add components to main panel
@@ -88,6 +90,10 @@ public class ProductionRegulatorGUI {
 
     public JButton getAutoAdjustButton() {
         return autoAdjustButton;
+    }
+
+    public JTextArea getTextArea() {
+        return textArea;
     }
 
     public void updateProgressBar(double balancePercentage) {

@@ -56,7 +56,7 @@ public class Controller implements PropertyChangeListener {
     private void toggleAutoAdjust() {
         isAutoAdjustOn = !isAutoAdjustOn;
         productionRegulatorGUI.autoAdjustColor(isAutoAdjustOn);
-        adjustProducers();
+        autoAdjustProducers();
     }
 
     /**
@@ -119,6 +119,7 @@ public class Controller implements PropertyChangeListener {
         }
         double average = messageCounts.stream().mapToInt(Integer::intValue).average().orElse(0.0);
         logger.info("Average number of messages in the buffer over the last 10 seconds: " + average);
+        productionRegulatorGUI.getTextArea().append("test \n");
         messageCounts.clear(); // clear for the next set of samples
     }
 
@@ -127,7 +128,7 @@ public class Controller implements PropertyChangeListener {
     double lowerThreshold = 45.0;
     double upperThreshold = 55.0;
 
-    void adjustProducers() {
+    void autoAdjustProducers() {
         while(isAutoAdjustOn) {
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastProducerAdjustmentTime < producerAdjustmentInterval) {
