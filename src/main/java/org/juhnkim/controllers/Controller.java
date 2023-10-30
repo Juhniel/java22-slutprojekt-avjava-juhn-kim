@@ -10,12 +10,16 @@ import org.juhnkim.views.ProductionRegulatorGUI;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Controller implements PropertyChangeListener {
     private final Logger logger = Log.getInstance().getLogger();
     private final LinkedList<Producer> producerLinkedList;
     private final LinkedList<Consumer> consumersLinkedList;
+
+    private final List<Integer> messageCounts = new ArrayList<>();
     private final Buffer buffer;
     private final Message message;
     private final ProductionRegulatorGUI productionRegulatorGUI;
@@ -37,6 +41,8 @@ public class Controller implements PropertyChangeListener {
         initController();
         initConsumers();
         new javax.swing.Timer(0, e -> updateProgressBar()).start();
+        new javax.swing.Timer(1000, e -> averageMessages()).start();
+        new javax.swing.Timer(10000, e -> logAverageMessages()).start();
     }
 
     private void initController() {
@@ -102,11 +108,18 @@ public class Controller implements PropertyChangeListener {
     }
 
     private void averageMessages() {
-        // Summera antal meddelanden för varje sekund
-        // dela med 10 sekunder för att få genomsnittet hur många meddelanden som har producerats
+        int currentMessageCount = buffer.getMessageCount();
+        messageCounts.add(currentMessageCount);
+    }
 
-//        double calculatedAverage = buffer.getMessageCount()
-//        logger.info("Average value of units: " + calculatedAverage);
+    private void logAverageMessages() {
+        if (messageCounts.isEmpty()) {
+            logger.info("No data for average");
+            return;
+        }
+        double average = messageCounts.stream().mapToInt(Integer::intValue).average().orElse(0.0);
+        logger.info("Average number of messages in the buffer over the last 10 seconds: " + average);
+        messageCounts.clear(); // clear for the next set of samples
     }
 
     long lastProducerAdjustmentTime = 0;
