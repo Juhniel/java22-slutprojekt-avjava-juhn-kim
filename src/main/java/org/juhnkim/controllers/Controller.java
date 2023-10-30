@@ -18,16 +18,13 @@ public class Controller implements PropertyChangeListener {
     private final Logger logger = Log.getInstance().getLogger();
     private final LinkedList<Producer> producerLinkedList;
     private final LinkedList<Consumer> consumersLinkedList;
-
     private final List<Integer> messageCounts = new ArrayList<>();
     private final Buffer buffer;
     private final Message message;
     private final ProductionRegulatorGUI productionRegulatorGUI;
     private boolean isAutoAdjustOn = false;
 
-    /**
-     * Calculate the amount of messages in queue with a capacity of 100
-     */
+    String logMessage = "";
     double balancePercentage;
     private Producer producer;
 
@@ -59,7 +56,7 @@ public class Controller implements PropertyChangeListener {
         autoAdjustProducers();
     }
 
-    /**
+    /*
      * Initialize 3-15 consumer threads when the application starts
      */
     private void initConsumers() {
@@ -96,15 +93,26 @@ public class Controller implements PropertyChangeListener {
 
     private void saveCurrentState() {
         // Save current state
+        // stream I/O
+
     }
 
     private void loadSavedState() {
         // Load the state
+        // stream I/O
     }
 
     private void updateProgressBar() {
         balancePercentage = ((double) buffer.getMessageCount() / buffer.getCapacity() * 100);
         productionRegulatorGUI.updateProgressBar(balancePercentage);
+    }
+
+    private void logProducerWarnings() {
+        if(balancePercentage <= 10) {
+            logger.warn("Amount of producer too low!");
+        } else if(balancePercentage >= 90) {
+            logger.warn("Amount of producers are too high!");
+        }
     }
 
     private void averageMessages() {
@@ -118,13 +126,17 @@ public class Controller implements PropertyChangeListener {
             return;
         }
         double average = messageCounts.stream().mapToInt(Integer::intValue).average().orElse(0.0);
-        logger.info("Average number of messages in the buffer over the last 10 seconds: " + average);
-        productionRegulatorGUI.getTextArea().append("test \n");
-        messageCounts.clear(); // clear for the next set of samples
+        logMessage = "Average number of messages in the buffer over the last 10 seconds: " + average;
+        logger.info(logMessage);
+        productionRegulatorGUI.getTextArea().append(logMessage + "\n");
+        messageCounts.clear();
+
+        // log if there are too many or too few Producers every 10 seconds
+        logProducerWarnings();
     }
 
     long lastProducerAdjustmentTime = 0;
-    long producerAdjustmentInterval = 20000; // 10 seconds
+    long producerAdjustmentInterval = 20000;
     double lowerThreshold = 45.0;
     double upperThreshold = 55.0;
 
