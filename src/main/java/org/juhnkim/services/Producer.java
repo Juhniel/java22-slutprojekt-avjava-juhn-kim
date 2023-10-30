@@ -32,7 +32,6 @@ public class Producer implements Runnable {
 		String text = "Random text";
 		producerInterval = (random.nextInt(10) + 1) * 1000;  // Capture the interval time
 		logger.info("Producer will sleep for {} milliseconds before producing the next message", producerInterval);
-
 		while (isRunning) {
 			try {
 				Thread.sleep(producerInterval);

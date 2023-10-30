@@ -15,7 +15,7 @@ public class ProductionRegulatorGUI {
         // Create the main window (frame)
         frame = new JFrame("Production Regulator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 200);
+        frame.setSize(800, 500);
 
         // Create a panel for the logs
         JPanel logPanel = new JPanel();
@@ -52,7 +52,7 @@ public class ProductionRegulatorGUI {
 
 
         // Create a text area for logs
-        textArea = new JTextArea(5, 20); // 5 rows, 20 columns
+        textArea = new JTextArea(15, 20); // 5 rows, 20 columns
         JScrollPane scrollPane = new JScrollPane(textArea);
 
         // Add components to main panel

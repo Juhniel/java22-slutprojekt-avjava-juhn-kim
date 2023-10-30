@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="Added auto regulator, color for buttons and toggle methods">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/State.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/StateManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Consumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Producer.java" afterDir="false" />
-    </list>
+    <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="Added auto regulator, color for buttons and toggle methods" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,6 +48,26 @@
       <recent name="C:\Users\Juhniel\IdeaProjects\java22-slutprojekt-avjava-juhn-kim\src\main\java\org\juhnkim\services" />
       <recent name="C:\Users\Juhniel\IdeaProjects\java22-slutprojekt-avjava-juhn-kim\src\main\java\org\juhnkim\models" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.juhnkim.Main" />
+      <module name="java22-slutprojekt-avjava-juhn-kim" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.juhnkim.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

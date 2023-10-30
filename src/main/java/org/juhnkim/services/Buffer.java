@@ -10,7 +10,6 @@ public class Buffer {
 
 	private final Queue<Message> queue;
 	private final int capacity;
-
 	private final PropertyChangeSupport support;
 	
 	public Buffer(int capacity) {
@@ -34,11 +33,11 @@ public class Buffer {
 	}
 	
 	public synchronized Message remove() {
-		while (queue.isEmpty()) { // Note the use of 'while' instead of 'if' to recheck the condition
+		while (queue.isEmpty()) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt(); // Re-interrupt the thread
+				Thread.currentThread().interrupt();
 				return null;
 			}
 		}
