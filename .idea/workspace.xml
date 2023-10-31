@@ -4,9 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="Cleanup, comments, logs /w date and time format">
+    <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="Interface for controller">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/interfaces/ControllerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/interfaces/ProductionRegulatorInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/interfaces/LogEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/interfaces/LogEventListenerInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/StateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/StateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Buffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Buffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Consumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Producer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/utils/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/utils/Log.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +149,14 @@
       <option name="presentableId" value="LOCAL−00009" />
       <updated>1698746842051</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL−00010" summary="Interface for controller">
+      <option name="closed" value="true" />
+      <created>1698748133802</created>
+      <option name="number" value="LOCAL−00010" />
+      <option name="presentableId" value="LOCAL−00010" />
+      <updated>1698748133802</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,6 +170,7 @@
     <MESSAGE value="avg messages" />
     <MESSAGE value="Log descending order" />
     <MESSAGE value="Cleanup, comments, logs /w date and time format" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleanup, comments, logs /w date and time format" />
+    <MESSAGE value="Interface for controller" />
+    <option name="LAST_COMMIT_MESSAGE" value="Interface for controller" />
   </component>
 </project>

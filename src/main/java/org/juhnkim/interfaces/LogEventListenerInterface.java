@@ -1,5 +1,5 @@
 package org.juhnkim.interfaces;
 
-public interface LogEventListener {
+public interface LogEventListenerInterface {
     void onLogEvent(String message);
 }

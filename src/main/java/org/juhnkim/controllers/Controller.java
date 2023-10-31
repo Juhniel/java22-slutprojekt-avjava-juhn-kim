@@ -1,7 +1,9 @@
 package org.juhnkim.controllers;
 
-import org.juhnkim.interfaces.LogEventListener;
+import org.juhnkim.interfaces.LogEventListenerInterface;
 import org.juhnkim.interfaces.ProductionRegulatorInterface;
+import org.juhnkim.models.State;
+import org.juhnkim.services.StateService;
 import org.juhnkim.services.Buffer;
 import org.juhnkim.services.Consumer;
 import org.juhnkim.services.Producer;
@@ -14,15 +16,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Controller implements ProductionRegulatorInterface,PropertyChangeListener, LogEventListener {
+public class Controller implements ProductionRegulatorInterface,PropertyChangeListener, LogEventListenerInterface {
     private final LinkedList<Producer> producerLinkedList;
     private final LinkedList<Consumer> consumersLinkedList;
     private final List<Integer> messageCounts = new ArrayList<>();
     private final Buffer buffer;
     private final ProductionRegulatorGUI productionRegulatorGUI;
     private boolean isAutoAdjustOn = false;
-
-    double balancePercentage;
+    private double balancePercentage;
 
 
     public Controller(ProductionRegulatorGUI productionRegulatorGUI, Buffer buffer) {
@@ -37,6 +38,7 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
         new javax.swing.Timer(0, e -> updateProgressBar()).start();
         new javax.swing.Timer(1000, e -> averageMessages()).start();
         new javax.swing.Timer(10000, e -> logAverageMessages()).start();
+        new javax.swing.Timer(4000, e-> autoAdjustProducers()).start();
     }
 
     /**
@@ -124,6 +126,7 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
     public void removeProducer() {
         if (!producerLinkedList.isEmpty()) {
             producerLinkedList.removeLast().stop();
+
             Log.getInstance().logInfo("Producer Removed");
             Log.getInstance().logInfo("New producer count: " + producerLinkedList.size());
         }
@@ -134,9 +137,21 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
      */
     @Override
     public void saveCurrentState() {
-        // Save current state
-        // stream I/O
+        List<Integer> producerIntervals = new ArrayList<>();
+        for (Producer p : producerLinkedList) {
+            producerIntervals.add(p.getProducerInterval());
+        }
 
+        List<Integer> consumerIntervals = new ArrayList<>();
+        for (Consumer c : consumersLinkedList) {
+            consumerIntervals.add(c.getConsumerInterval());
+        }
+
+        State state = new State(producerLinkedList, consumersLinkedList, producerIntervals, consumerIntervals);
+        StateService stateService = new StateService();
+        stateService.saveState(state);
+
+        System.out.println(state);
     }
 
     /**
@@ -144,8 +159,37 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
      */
     @Override
     public void loadSavedState() {
-        // Load the state
-        // stream I/O
+        StateService stateService = new StateService();
+        State state = stateService.loadState();
+
+        if (state != null) {
+            // Clear current Producers and Consumers
+            producerLinkedList.clear();
+            consumersLinkedList.clear();
+            buffer.clear();
+
+            // Load Producers
+            List<Integer> producerIntervals = state.getProducerIntervals();
+            for (int i = 0; i < producerIntervals.size(); i++) {
+                Producer producer = new Producer(buffer);
+                producer.setProducerInterval(producerIntervals.get(i));
+                producerLinkedList.add(producer);
+                new Thread(producer).start();
+            }
+
+            // Load Consumers
+            List<Integer> consumerIntervals = state.getConsumerIntervals();
+            for (int i = 0; i < consumerIntervals.size(); i++) {
+                Consumer consumer = new Consumer(buffer);
+                consumer.setConsumerInterval(consumerIntervals.get(i));
+                consumersLinkedList.add(consumer);
+                new Thread(consumer).start();
+            }
+
+            Log.getInstance().logInfo("State loaded successfully.");
+        } else {
+            Log.getInstance().logInfo("Failed to load state.");
+        }
     }
 
     /**
@@ -163,18 +207,11 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
     /**
      * Auto-adjusts the number of Producers to balance the buffer fill level.
      */
-    long lastProducerAdjustmentTime = 0;
-    long producerAdjustmentInterval = 2000;
-    double lowerThreshold = 45.0;
-    double upperThreshold = 55.0;
+
+    double lowerThreshold = 35.0;
+    double upperThreshold = 75.0;
     @Override
     public void autoAdjustProducers() {
-        while(isAutoAdjustOn) {
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastProducerAdjustmentTime < producerAdjustmentInterval) {
-                return;
-            }
-
             if (balancePercentage < lowerThreshold) {
                 addProducer();
                 Log.getInstance().logInfo("Too few producers! Added a new producer.");
@@ -183,14 +220,21 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
                 Log.getInstance().logInfo("Too many producers! Removed a producer.");
             }
 
-            lastProducerAdjustmentTime = currentTime;
         }
-    }
+//    }
 
+    /**
+     * Handles log events to display them on the GUI.
+     * @param message Log message
+     * Implements LogEventListerInterface
+     */
     @Override
     public void onLogEvent(String message) {
         String existingText = productionRegulatorGUI.getTextArea().getText();
         productionRegulatorGUI.getTextArea().setText(message + "\n" + existingText);
+
+        // Setting the scroll to top always, so it does not move to the bottom when new logs get appended.
+        productionRegulatorGUI.getTextArea().setCaretPosition(0);
     }
 
     @Override

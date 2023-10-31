@@ -9,10 +9,10 @@ import java.util.List;
 public class State implements Serializable {
     private int numProducers;
     private int numConsumers;
-    private List<Producer> producerList;
-    private List<Consumer> consumerList;
-    private List<Integer> producerIntervals;
-    private List<Integer> consumerIntervals;
+    private final List<Producer> producerList;
+    private final List<Consumer> consumerList;
+    private final List<Integer> producerIntervals;
+    private final List<Integer> consumerIntervals;
 
     public State(LinkedList<Producer> producerList, LinkedList<Consumer> consumerList,
                  List<Integer> producerIntervals, List<Integer> consumerIntervals) {
@@ -22,6 +22,7 @@ public class State implements Serializable {
         this.producerIntervals = producerIntervals;
         this.consumerIntervals = consumerIntervals;
     }
+
 
     public int getNumProducers() {
         return numProducers;
@@ -37,5 +38,33 @@ public class State implements Serializable {
 
     public void setNumConsumers(int numConsumers) {
         this.numConsumers = numConsumers;
+    }
+
+    public List<Producer> getProducerList() {
+        return producerList;
+    }
+
+    public List<Consumer> getConsumerList() {
+        return consumerList;
+    }
+
+    public List<Integer> getProducerIntervals() {
+        return producerIntervals;
+    }
+
+    public List<Integer> getConsumerIntervals() {
+        return consumerIntervals;
+    }
+
+    @Override
+    public String toString() {
+        return "State{" +
+                "numProducers=" + numProducers +
+                ", numConsumers=" + numConsumers +
+                ", producerList=" + producerList +
+                ", consumerList=" + consumerList +
+                ", producerIntervals=" + producerIntervals +
+                ", consumerIntervals=" + consumerIntervals +
+                '}';
     }
 }

@@ -4,9 +4,10 @@ import org.juhnkim.models.Message;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.*;
 
-public class Buffer {
+public class Buffer implements Serializable {
 
 	private final Queue<Message> queue;
 	private final int capacity;
@@ -54,5 +55,12 @@ public class Buffer {
 
 	public int getCapacity() {
 		return capacity;
+	}
+
+	public synchronized void clear() {
+		int oldQueueSize = queue.size();
+		queue.clear();
+		support.firePropertyChange("messageCount", oldQueueSize, 0);
+		System.out.println("Buffer cleared.");
 	}
 }

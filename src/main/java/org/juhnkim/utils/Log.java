@@ -2,7 +2,7 @@ package org.juhnkim.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
-import org.juhnkim.interfaces.LogEventListener;
+import org.juhnkim.interfaces.LogEventListenerInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
 public class Log {
     private static Log log;
     private final Logger logger;
-    private final List<LogEventListener> logEventListenerList = new ArrayList<>();
+    private final List<LogEventListenerInterface> logEventListenerInterfaceList = new ArrayList<>();
 
     /**
      * Private constructor for Singleton pattern
@@ -45,8 +45,8 @@ public class Log {
      * Method to add a new LogEventListener
      * @param listener instance of a class that implements LogEventListener
      */
-    public void addLogEventListener(LogEventListener listener) {
-        logEventListenerList.add(listener);
+    public void addLogEventListener(LogEventListenerInterface listener) {
+        logEventListenerInterfaceList.add(listener);
     }
 
     /**
@@ -70,7 +70,7 @@ public class Log {
      * @param message the message to be sent to listeners
      */
     private void notifyListeners(String message) {
-        for (LogEventListener listener : logEventListenerList) {
+        for (LogEventListenerInterface listener : logEventListenerInterfaceList) {
             listener.onLogEvent(message);
         }
     }
