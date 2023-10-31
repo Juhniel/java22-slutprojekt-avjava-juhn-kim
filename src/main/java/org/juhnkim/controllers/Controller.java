@@ -10,6 +10,7 @@ import org.juhnkim.services.Producer;
 import org.juhnkim.utils.Log;
 import org.juhnkim.views.ProductionRegulatorGUI;
 
+import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -230,11 +231,11 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
      */
     @Override
     public void onLogEvent(String message) {
-        String existingText = productionRegulatorGUI.getTextArea().getText();
-        productionRegulatorGUI.getTextArea().setText(message + "\n" + existingText);
-
-        // Setting the scroll to top always, so it does not move to the bottom when new logs get appended.
-        productionRegulatorGUI.getTextArea().setCaretPosition(0);
+        SwingUtilities.invokeLater(() -> {
+            String existingText = productionRegulatorGUI.getTextArea().getText();
+            productionRegulatorGUI.getTextArea().setText(message + "\n" + existingText);
+            productionRegulatorGUI.getTextArea().setCaretPosition(0);
+        });
     }
 
     @Override
