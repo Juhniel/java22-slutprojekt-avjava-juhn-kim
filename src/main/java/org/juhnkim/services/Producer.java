@@ -12,24 +12,16 @@ public class Producer implements Runnable {
 	private final Buffer buffer;
 	private final Random random = new Random();
 	volatile boolean isRunning = true;
-	private int producerInterval;
 
 	public Producer(Buffer buffer) {
 		this.buffer = buffer;
 	}
 
-	public int getProducerInterval() {
-		return producerInterval;
-	}
-
-	public void setProducerInterval(int producerInterval) {
-		this.producerInterval = producerInterval;
-	}
 
 	@Override
 	public void run() {
 		String text = "Random text";
-		producerInterval = (random.nextInt(10) + 1) * 1000;
+		int producerInterval = (random.nextInt(10) + 1) * 1000;
 		Log.getInstance().logInfo("Producer will sleep for " + producerInterval +" milliseconds before producing the next message");
 		while (isRunning) {
 			try {

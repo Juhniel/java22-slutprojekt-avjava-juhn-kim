@@ -1,8 +1,6 @@
 package org.juhnkim.controllers;
 
-import org.apache.logging.log4j.Logger;
 import org.juhnkim.interfaces.LogEventListener;
-import org.juhnkim.models.Message;
 import org.juhnkim.services.Buffer;
 import org.juhnkim.services.Consumer;
 import org.juhnkim.services.Producer;
@@ -20,16 +18,13 @@ public class Controller implements PropertyChangeListener, LogEventListener {
     private final LinkedList<Consumer> consumersLinkedList;
     private final List<Integer> messageCounts = new ArrayList<>();
     private final Buffer buffer;
-    private final Message message;
     private final ProductionRegulatorGUI productionRegulatorGUI;
     private boolean isAutoAdjustOn = false;
 
-    String logMessage = "";
     double balancePercentage;
-    private Producer producer;
 
-    public Controller(Message message, ProductionRegulatorGUI productionRegulatorGUI, Buffer buffer) {
-        this.message = message;
+
+    public Controller(ProductionRegulatorGUI productionRegulatorGUI, Buffer buffer) {
         this.productionRegulatorGUI = productionRegulatorGUI;
         this.buffer = buffer;
         buffer.addPropertyChangeListener(this);
@@ -44,7 +39,7 @@ public class Controller implements PropertyChangeListener, LogEventListener {
     }
 
     /**
-     * Initialize buttons on the gui /w ActionListeners
+     * Initialize buttons on the gui and set ActionListeners to buttons
      */
     private void initController() {
         productionRegulatorGUI.getAddButton().addActionListener(e -> addProducer());
@@ -80,7 +75,7 @@ public class Controller implements PropertyChangeListener, LogEventListener {
      * Adding a new Producer Thread
      */
     private void addProducer() {
-        producer = new Producer(buffer);
+        Producer producer = new Producer(buffer);
         producerLinkedList.add(producer);
         new Thread(producer).start();
         Log.getInstance().logInfo("Producer Added");
@@ -98,22 +93,34 @@ public class Controller implements PropertyChangeListener, LogEventListener {
         }
     }
 
+    /**
+     * Saves the current state of the application.
+     */
     private void saveCurrentState() {
         // Save current state
         // stream I/O
 
     }
 
+    /**
+     * Loads a saved state of the application.
+     */
     private void loadSavedState() {
         // Load the state
         // stream I/O
     }
 
+    /**
+     * Updates the progress bar on the GUI based on buffer fill level.
+     */
     private void updateProgressBar() {
         balancePercentage = ((double) buffer.getMessageCount() / buffer.getCapacity() * 100);
         productionRegulatorGUI.updateProgressBar(balancePercentage);
     }
 
+    /**
+     * Logs warnings related to the number of Producer threads.
+     */
     private void logProducerWarnings() {
         if(balancePercentage <= 10) {
             Log.getInstance().logInfo("Amount of producer too low!");
@@ -122,11 +129,17 @@ public class Controller implements PropertyChangeListener, LogEventListener {
         }
     }
 
+    /**
+     * Computes the average message count in the buffer every second and adds to a List
+     */
     private void averageMessages() {
         int currentMessageCount = buffer.getMessageCount();
         messageCounts.add(currentMessageCount);
     }
 
+    /**
+     * Logs the average message count in the buffer every 10 seconds.
+     */
     private void logAverageMessages() {
         if (messageCounts.isEmpty()) {
             Log.getInstance().logInfo("No data for average");
@@ -143,10 +156,10 @@ public class Controller implements PropertyChangeListener, LogEventListener {
 
 
     /**
-     *  Method for auto-adjusting the Producers to try and balance every 2 seconds.
+     * Auto-adjusts the number of Producers to balance the buffer fill level.
      */
     long lastProducerAdjustmentTime = 0;
-    long producerAdjustmentInterval = 20000;
+    long producerAdjustmentInterval = 2000;
     double lowerThreshold = 45.0;
     double upperThreshold = 55.0;
 
