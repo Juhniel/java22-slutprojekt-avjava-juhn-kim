@@ -19,7 +19,6 @@ public class Buffer implements Serializable {
 		this.capacity = capacity;
 		this.queue = new LinkedList<>();
 		this.support = new PropertyChangeSupport(this);
-
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -34,6 +33,14 @@ public class Buffer implements Serializable {
 		int newQueueSize = queue.size();
 		support.firePropertyChange("messageCount", queueSize, newQueueSize);
 		System.out.println("Produced: " + queue);
+	}
+
+	public synchronized void setAllMessagesInBuffer(List<Message> messages) {
+		if(!this.queue.isEmpty()){
+			this.queue.clear();
+			this.queue.addAll(messages);
+		}
+
 	}
 	
 	public synchronized Message remove() {
@@ -52,7 +59,20 @@ public class Buffer implements Serializable {
 		support.firePropertyChange("messageCount", queueSize, newQueueSize);
 		return message;
 	}
-	
+
+	public synchronized void clear() {
+		int oldQueueSize = queue.size();
+		queue.clear();
+		support.firePropertyChange("messageCount", oldQueueSize, 0);
+		System.out.println("Buffer cleared.");
+	}
+
+	public synchronized LinkedList<Message> getAllMessagesInBuffer() {
+		return new LinkedList<>(queue);
+	}
+
+
+
 	public int getMessageCount() {
 		return queue.size();
 	}
@@ -75,12 +95,5 @@ public class Buffer implements Serializable {
 
 	public void setConsumedMessages(int consumedMessages) {
 		this.consumedMessages = consumedMessages;
-	}
-
-	public synchronized void clear() {
-		int oldQueueSize = queue.size();
-		queue.clear();
-		support.firePropertyChange("messageCount", oldQueueSize, 0);
-		System.out.println("Buffer cleared.");
 	}
 }

@@ -2,6 +2,7 @@ package org.juhnkim.controllers;
 
 import org.juhnkim.interfaces.LogEventListenerInterface;
 import org.juhnkim.interfaces.ProductionRegulatorInterface;
+import org.juhnkim.models.Message;
 import org.juhnkim.models.State;
 import org.juhnkim.services.StateService;
 import org.juhnkim.services.Buffer;
@@ -19,8 +20,10 @@ import java.util.List;
 
 public class Controller implements ProductionRegulatorInterface, PropertyChangeListener, LogEventListenerInterface {
     private final LinkedList<Producer> producerLinkedList;
-    private final LinkedList<Consumer> consumersLinkedList;
-    private final List<Double> messageRatio = new ArrayList<>();
+    private LinkedList<Integer> producerIntervals;
+    private final List<Consumer> consumerList;
+    private List<Integer> consumerIntervals;
+    private List<Message> allMessagesInBuffer;
     private final Buffer buffer;
     private final ProductionRegulatorGUI productionRegulatorGUI;
     private boolean isAutoAdjustOn = false;
@@ -34,11 +37,12 @@ public class Controller implements ProductionRegulatorInterface, PropertyChangeL
         buffer.addPropertyChangeListener(this);
         Log.getInstance().addLogEventListener(this);
         this.producerLinkedList = new LinkedList<>();
-        this.consumersLinkedList = new LinkedList<>();
+        this.producerIntervals = new LinkedList<>();
+        this.consumerList = new ArrayList<>();
+        this.consumerIntervals = new LinkedList<>();
+        this.allMessagesInBuffer = new ArrayList<>();
         initController();
         initConsumers();
-        new javax.swing.Timer(0, e -> updateProgressBar()).start();
-//        new javax.swing.Timer(1000, e -> averageMessages()).start();
         new javax.swing.Timer(10000, e -> logConsumedToProducerRatio()).start();
         autoAdjustTimer = new javax.swing.Timer(4000, e -> autoAdjustProducers());
     }
@@ -54,15 +58,6 @@ public class Controller implements ProductionRegulatorInterface, PropertyChangeL
         productionRegulatorGUI.getAutoAdjustButton().addActionListener(e -> toggleAutoAdjust());
     }
 
-//    /**
-//     * Computes the average message count in the buffer every second and adds to a List
-//     */
-//    private void averageMessages() {
-////        int currentProducedMsg = buffer.getProducedMessages();
-////        int currentConsumedMsg = buffer.getConsumedMessages();
-//        double consumedRatio = (double) buffer.getConsumedMessages() / buffer.getProducedMessages();
-//        messageRatio.add(consumedRatio);
-//    }
 
     /**
      * Logs the average message count in the buffer every 10 seconds.
@@ -77,7 +72,7 @@ public class Controller implements ProductionRegulatorInterface, PropertyChangeL
         System.out.println("Produced Messages: " + buffer.getProducedMessages());
         System.out.println("Consumed Messages: " + buffer.getConsumedMessages());
 
-        Log.getInstance().logInfo("Average Consumed Messages: " + consumedRatio + "%");
+        Log.getInstance().logInfo("Average Consumed Messages: " + String.format("%.2f", consumedRatio) + "%");
         buffer.setProducedMessages(0);
         buffer.setConsumedMessages(0);
 
@@ -114,10 +109,10 @@ public class Controller implements ProductionRegulatorInterface, PropertyChangeL
         int numConsumers = (int) (Math.random() * 13) + 3;
         for (int i = 0; i < numConsumers; i++) {
             Consumer consumer = new Consumer(buffer);
-            consumersLinkedList.add(consumer);
+            consumerList.add(consumer);
             new Thread(consumer).start();
         }
-        System.out.println("Consumers: " + consumersLinkedList.size());
+        System.out.println("Consumers: " + consumerList.size());
     }
 
     /**
@@ -150,17 +145,18 @@ public class Controller implements ProductionRegulatorInterface, PropertyChangeL
      */
     @Override
     public void saveCurrentState() {
-        List<Integer> producerIntervals = new ArrayList<>();
         for (Producer p : producerLinkedList) {
             producerIntervals.add(p.getProducerInterval());
         }
 
-        List<Integer> consumerIntervals = new ArrayList<>();
-        for (Consumer c : consumersLinkedList) {
+
+        for (Consumer c : consumerList) {
             consumerIntervals.add(c.getConsumerInterval());
         }
 
-        State state = new State(producerLinkedList, consumersLinkedList, producerIntervals, consumerIntervals);
+        allMessagesInBuffer = buffer.getAllMessagesInBuffer();
+
+        State state = new State(producerLinkedList, consumerList, producerIntervals, consumerIntervals, allMessagesInBuffer);
         StateService stateService = new StateService();
         stateService.saveState(state);
     }
@@ -176,11 +172,11 @@ public class Controller implements ProductionRegulatorInterface, PropertyChangeL
         if (state != null) {
             // Clear current Producers and Consumers
             producerLinkedList.clear();
-            consumersLinkedList.clear();
+            consumerList.clear();
             buffer.clear();
 
             // Load Producers
-            List<Integer> producerIntervals = state.getProducerIntervals();
+            producerIntervals = state.getProducerIntervals();
             for (Integer producerInterval : producerIntervals) {
                 Producer producer = new Producer(buffer);
                 producer.setProducerInterval(producerInterval);
@@ -189,15 +185,22 @@ public class Controller implements ProductionRegulatorInterface, PropertyChangeL
             }
 
             // Load Consumers
-            List<Integer> consumerIntervals = state.getConsumerIntervals();
+            consumerIntervals = state.getConsumerIntervals();
             for (Integer consumerInterval : consumerIntervals) {
                 Consumer consumer = new Consumer(buffer);
                 consumer.setConsumerInterval(consumerInterval);
-                consumersLinkedList.add(consumer);
+                consumerList.add(consumer);
                 new Thread(consumer).start();
             }
 
+            // Load Messages
+            allMessagesInBuffer = state.getMessageList();
+            buffer.setAllMessagesInBuffer(allMessagesInBuffer);
+
             Log.getInstance().logInfo("State loaded successfully.");
+            Log.getInstance().logInfo("Amount of Producers loaded: " + state.getProducerList().size());
+            Log.getInstance().logInfo("Amount of Consumers loaded: " + state.getConsumerList().size());
+            Log.getInstance().logInfo("Amount of Messages in queue loaded: " + state.getMessageList().size());
         } else {
             Log.getInstance().logInfo("Failed to load state.");
         }
@@ -218,14 +221,10 @@ public class Controller implements ProductionRegulatorInterface, PropertyChangeL
     /**
      * Auto-adjusts the number of Producers to balance the buffer fill level.
      */
-
-
-
     @Override
     public void autoAdjustProducers() {
         double lowerThreshold = 35.0;
         double upperThreshold = 65.0;
-
 
         if (balancePercentage < lowerThreshold) {
             addProducer();
@@ -253,7 +252,9 @@ public class Controller implements ProductionRegulatorInterface, PropertyChangeL
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        if ("messageCount".equals(evt.getPropertyName())) {
+            updateProgressBar();
+        }
     }
 }
 
