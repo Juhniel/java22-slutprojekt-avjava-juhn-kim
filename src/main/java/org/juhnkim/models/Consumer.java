@@ -1,18 +1,15 @@
 package org.juhnkim.models;
-import org.juhnkim.services.Buffer;
 
 import java.io.Serializable;
 import java.util.Random;
 
-public class Consumer implements Runnable, Serializable {
-	private final Buffer buffer;
-	private final Random random = new Random();
-	public int consumerInterval;
-	boolean isRunning = true;
+public class Consumer implements Serializable {
 
+	private int consumerInterval;
 
-	public Consumer(Buffer buffer) {
-		this.buffer = buffer;
+	public Consumer() {
+		Random random = new Random();
+		this.consumerInterval = (random.nextInt(10) + 1) * 1000;
 	}
 
 	public int getConsumerInterval() {
@@ -22,20 +19,4 @@ public class Consumer implements Runnable, Serializable {
 	public void setConsumerInterval(int consumerInterval) {
 		this.consumerInterval = consumerInterval;
 	}
-
-
-
-	@Override
-	public void run() {
-		consumerInterval = (random.nextInt(10) + 1) * 1000;
-		while (isRunning) {
-			try {
-				Thread.sleep(consumerInterval);
-				buffer.remove();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 }

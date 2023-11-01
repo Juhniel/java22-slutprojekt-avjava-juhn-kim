@@ -1,6 +1,5 @@
 package org.juhnkim.controllers;
 
-import org.juhnkim.models.Consumer;
 import org.juhnkim.models.Producer;
 import org.juhnkim.services.Buffer;
 import org.juhnkim.services.ProducerService;
@@ -17,15 +16,15 @@ public class ProducerController {
     private final PropertyChangeService propertyChangeService;
     private boolean isAutoAdjustOn;
     private final javax.swing.Timer autoAdjustTimer;
-
     private final LinkedList<Producer> producerList;
-    private final LinkedList<Integer> producerIntervalList;
+    private final LinkedList<ProducerService> producerServiceList;
+
 
     public ProducerController(ProductionRegulatorGUI productionRegulatorGUI, Buffer buffer) {
         this.productionRegulatorGUI = productionRegulatorGUI;
         this.buffer = buffer;
         this.producerList = new LinkedList<>();
-        this.producerIntervalList = new LinkedList<>();
+        this.producerServiceList = new LinkedList<>();
         this.propertyChangeService = new PropertyChangeService(productionRegulatorGUI, buffer);
         this.isAutoAdjustOn = false;
         this.autoAdjustTimer = new javax.swing.Timer(4000, e -> autoAdjustProducers());
@@ -45,18 +44,22 @@ public class ProducerController {
     }
 
     public void addProducer() {
-        ProducerService producer = new ProducerService(buffer, new Producer());
-        producerLinkedList.add(producer);
-        new Thread(producerservice).start();
+        Producer producer = new Producer();
+        ProducerService producerService = new ProducerService(buffer, producer);
+        producerList.add(producer);
+        new Thread(producerService).start();
         Log.getInstance().logInfo("Producer Added");
-        Log.getInstance().logInfo("Producer Count: " + producerLinkedList.size());
+        Log.getInstance().logInfo("Producer Count: " + producerList.size());
     }
 
     public void removeProducer() {
-        if (!producerLinkedList.isEmpty()) {
-            producerLinkedList.removeLast().stop();
+        if (!producerList.isEmpty()) {
+            producerList.removeLast();
+            ProducerService lastProducerService = producerServiceList.removeLast();
+            lastProducerService.stop();
+
             Log.getInstance().logInfo("Producer Removed");
-            Log.getInstance().logInfo("Producer Count: " + producerLinkedList.size());
+            Log.getInstance().logInfo("Producer Count: " + producerList.size());
         }
     }
 
