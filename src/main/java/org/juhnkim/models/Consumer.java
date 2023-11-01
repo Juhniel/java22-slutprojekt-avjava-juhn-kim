@@ -1,4 +1,6 @@
-package org.juhnkim.services;
+package org.juhnkim.models;
+import org.juhnkim.services.Buffer;
+
 import java.io.Serializable;
 import java.util.Random;
 

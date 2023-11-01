@@ -32,7 +32,6 @@ public class Buffer implements Serializable {
 		notify();
 		int newQueueSize = queue.size();
 		support.firePropertyChange("messageCount", queueSize, newQueueSize);
-		System.out.println("Produced: " + queue);
 	}
 
 	public synchronized void setAllMessagesInBuffer(List<Message> messages) {
@@ -70,8 +69,6 @@ public class Buffer implements Serializable {
 	public synchronized LinkedList<Message> getAllMessagesInBuffer() {
 		return new LinkedList<>(queue);
 	}
-
-
 
 	public int getMessageCount() {
 		return queue.size();

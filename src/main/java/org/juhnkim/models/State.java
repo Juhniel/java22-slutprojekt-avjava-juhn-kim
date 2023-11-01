@@ -1,12 +1,11 @@
 package org.juhnkim.models;
-import org.juhnkim.services.Consumer;
-import org.juhnkim.services.Producer;
 
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
 public class State implements Serializable {
+
     private int numProducers;
     private int numConsumers;
     private final LinkedList<Producer> producerList;
@@ -65,15 +64,4 @@ public class State implements Serializable {
         return messageList;
     }
 
-    @Override
-    public String toString() {
-        return "State{" +
-                "numProducers=" + numProducers +
-                ", numConsumers=" + numConsumers +
-                ", producerList=" + producerList +
-                ", consumerList=" + consumerList +
-                ", producerIntervals=" + producerIntervals +
-                ", consumerIntervals=" + consumerIntervals +
-                '}';
-    }
 }

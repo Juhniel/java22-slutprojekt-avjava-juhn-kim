@@ -3,8 +3,8 @@ package org.juhnkim.controllers;
 import org.juhnkim.models.Message;
 import org.juhnkim.models.State;
 import org.juhnkim.services.Buffer;
-import org.juhnkim.services.Consumer;
-import org.juhnkim.services.Producer;
+import org.juhnkim.models.Consumer;
+import org.juhnkim.models.Producer;
 import org.juhnkim.services.StateService;
 import org.juhnkim.utils.Log;
 
@@ -20,6 +20,9 @@ public class StateController {
     private List<Integer> consumerIntervals;
     private List<Message> allMessagesInBuffer;
 
+    private State state;
+    private StateService stateService;
+
     public StateController(Buffer buffer) {
         this.producerLinkedList = new LinkedList<>();
         this.consumerList = new ArrayList<>();
@@ -27,29 +30,27 @@ public class StateController {
         this.producerIntervals = new LinkedList<>();
         this.consumerIntervals = new ArrayList<>();
         this.allMessagesInBuffer = new ArrayList<>();
+        this.state = new State(producerLinkedList, consumerList, producerIntervals, consumerIntervals, allMessagesInBuffer);
+        this.stateService = new StateService();
     }
 
     public void saveCurrentState() {
-        for (Producer p : producerLinkedList) {
-            producerIntervals.add(p.getProducerInterval());
+
+        for (Producer p : state.getProducerList()) {
+            state.getProducerIntervals().add(p.getProducerInterval());
         }
 
-
-        for (Consumer c : consumerList) {
-            consumerIntervals.add(c.getConsumerInterval());
+        for (Consumer c : state.getConsumerList()) {
+            state.getConsumerIntervals().add(c.consumerInterval);
         }
 
         allMessagesInBuffer = buffer.getAllMessagesInBuffer();
-
-        State state = new State(producerLinkedList, consumerList, producerIntervals, consumerIntervals, allMessagesInBuffer);
-        StateService stateService = new StateService();
         stateService.saveState(state);
     }
 
 
     public void loadSavedState() {
-        StateService stateService = new StateService();
-        State state = stateService.loadState();
+        state = stateService.loadState();
 
         if (state != null) {
             // Clear current Producers and Consumers
@@ -57,32 +58,30 @@ public class StateController {
             consumerList.clear();
             buffer.clear();
 
-            // Load Producers
-            producerIntervals = state.getProducerIntervals();
-            for (Integer producerInterval : producerIntervals) {
-                Producer producer = new Producer(buffer);
-                producer.setProducerInterval(producerInterval);
-                producerLinkedList.add(producer);
-                new Thread(producer).start();
+            // Populate producers based on saved state
+            for (Integer producerInterval : state.getProducerIntervals()) {
+                Producer newProducer = new Producer(buffer);
+                newProducer.setProducerInterval(producerInterval);
+                producerLinkedList.add(newProducer);
+                new Thread(newProducer).start();
             }
 
-            // Load Consumers
-            consumerIntervals = state.getConsumerIntervals();
-            for (Integer consumerInterval : consumerIntervals) {
-                Consumer consumer = new Consumer(buffer);
-                consumer.setConsumerInterval(consumerInterval);
-                consumerList.add(consumer);
-                new Thread(consumer).start();
+            // Populate consumers based on saved state
+            for (Integer consumerInterval : state.getConsumerIntervals()) {
+                Consumer newConsumer = new Consumer(buffer);
+                newConsumer.setConsumerInterval(consumerInterval);
+                consumerList.add(newConsumer);
+                new Thread(newConsumer).start();
             }
 
-            // Load Messages
-            allMessagesInBuffer = state.getMessageList();
-            buffer.setAllMessagesInBuffer(allMessagesInBuffer);
+            // Populate buffer based on saved state
+            buffer.setAllMessagesInBuffer(state.getMessageList());
 
-            Log.getInstance().logInfo("State loaded successfully.");
-            Log.getInstance().logInfo("Amount of Producers loaded: " + state.getProducerList().size());
-            Log.getInstance().logInfo("Amount of Consumers loaded: " + state.getConsumerList().size());
-            Log.getInstance().logInfo("Amount of Messages in queue loaded: " + state.getMessageList().size());
+            // Log information about the loaded state
+//            Log.getInstance().logInfo("State loaded successfully.");
+//            Log.getInstance().logInfo("Amount of Producers loaded: " + producerLinkedList.size());
+//            Log.getInstance().logInfo("Amount of Consumers loaded: " + consumerList.size());
+//            Log.getInstance().logInfo("Amount of Messages in queue loaded: " + state.getMessageList().size());
         } else {
             Log.getInstance().logInfo("Failed to load state.");
         }

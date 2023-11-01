@@ -4,17 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="Added buffer messages state save and load">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/LogController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/StateController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/ThreadController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/PropertyChangeService.java" afterDir="false" />
+    <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="Refractored facade pattern - added StateController, PropertyChangeService, LogController, ThreadController">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/ConsumerController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/ProducerController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/ConsumerService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/ProducerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/files/state.dat" beforeDir="false" afterPath="$PROJECT_DIR$/files/state.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/interfaces/ProductionRegulatorInterface.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/utils/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/utils/Log.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/StateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/StateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/ThreadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/ThreadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Buffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Buffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Consumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Producer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +170,13 @@
       <option name="presentableId" value="LOCAL−00012" />
       <updated>1698851592237</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL−00013" summary="Refractored facade pattern - added StateController, PropertyChangeService, LogController, ThreadController">
+      <created>1698868848479</created>
+      <option name="number" value="LOCAL−00013" />
+      <option name="presentableId" value="LOCAL−00013" />
+      <updated>1698868848479</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,6 +193,7 @@
     <MESSAGE value="Interface for controller" />
     <MESSAGE value="files folder for state file" />
     <MESSAGE value="Added buffer messages state save and load" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added buffer messages state save and load" />
+    <MESSAGE value="Refractored facade pattern - added StateController, PropertyChangeService, LogController, ThreadController" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refractored facade pattern - added StateController, PropertyChangeService, LogController, ThreadController" />
   </component>
 </project>
