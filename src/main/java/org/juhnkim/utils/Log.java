@@ -37,10 +37,6 @@ public class Log {
         return log;
     }
 
-    public Logger getLogger() {
-        return logger;
-    }
-
     /**
      * Method to add a new LogEventListener
      * @param listener instance of a class that implements LogEventListener
