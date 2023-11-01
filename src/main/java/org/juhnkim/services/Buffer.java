@@ -12,6 +12,8 @@ public class Buffer implements Serializable {
 	private final Queue<Message> queue;
 	private final int capacity;
 	private final PropertyChangeSupport support;
+	private int producedMessages = 0;
+	private int consumedMessages = 0;
 	
 	public Buffer(int capacity) {
 		this.capacity = capacity;
@@ -27,6 +29,7 @@ public class Buffer implements Serializable {
 	public synchronized void add(Message message) {
 		int queueSize = queue.size();
 		queue.add(message);
+		producedMessages++;
 		notify();
 		int newQueueSize = queue.size();
 		support.firePropertyChange("messageCount", queueSize, newQueueSize);
@@ -44,6 +47,7 @@ public class Buffer implements Serializable {
 		}
 		int queueSize = queue.size();
 		Message message = queue.remove();
+		consumedMessages++;
 		int newQueueSize = queue.size();
 		support.firePropertyChange("messageCount", queueSize, newQueueSize);
 		return message;
@@ -55,6 +59,22 @@ public class Buffer implements Serializable {
 
 	public int getCapacity() {
 		return capacity;
+	}
+
+	public int getProducedMessages() {
+		return producedMessages;
+	}
+
+	public int getConsumedMessages() {
+		return consumedMessages;
+	}
+
+	public void setProducedMessages(int producedMessages) {
+		this.producedMessages = producedMessages;
+	}
+
+	public void setConsumedMessages(int consumedMessages) {
+		this.consumedMessages = consumedMessages;
 	}
 
 	public synchronized void clear() {

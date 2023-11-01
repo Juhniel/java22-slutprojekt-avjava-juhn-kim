@@ -16,6 +16,7 @@ public class Producer implements Runnable, Serializable {
 	private Random random = new Random();
 
 
+
 	public Producer(Buffer buffer) {
 		this.buffer = buffer;
 	}
@@ -27,6 +28,8 @@ public class Producer implements Runnable, Serializable {
 	public void setProducerInterval(int producerInterval) {
 		this.producerInterval = producerInterval;
 	}
+
+
 
 	public void stop() {
 		isRunning = false;

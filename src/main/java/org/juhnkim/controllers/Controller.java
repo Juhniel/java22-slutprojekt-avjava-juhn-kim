@@ -20,7 +20,7 @@ import java.util.List;
 public class Controller implements ProductionRegulatorInterface, PropertyChangeListener, LogEventListenerInterface {
     private final LinkedList<Producer> producerLinkedList;
     private final LinkedList<Consumer> consumersLinkedList;
-    private final List<Integer> messageCounts = new ArrayList<>();
+    private final List<Double> messageRatio = new ArrayList<>();
     private final Buffer buffer;
     private final ProductionRegulatorGUI productionRegulatorGUI;
     private boolean isAutoAdjustOn = false;
@@ -38,8 +38,8 @@ public class Controller implements ProductionRegulatorInterface, PropertyChangeL
         initController();
         initConsumers();
         new javax.swing.Timer(0, e -> updateProgressBar()).start();
-        new javax.swing.Timer(1000, e -> averageMessages()).start();
-        new javax.swing.Timer(10000, e -> logAverageMessages()).start();
+//        new javax.swing.Timer(1000, e -> averageMessages()).start();
+        new javax.swing.Timer(10000, e -> logConsumedToProducerRatio()).start();
         autoAdjustTimer = new javax.swing.Timer(4000, e -> autoAdjustProducers());
     }
 
@@ -54,25 +54,32 @@ public class Controller implements ProductionRegulatorInterface, PropertyChangeL
         productionRegulatorGUI.getAutoAdjustButton().addActionListener(e -> toggleAutoAdjust());
     }
 
-    /**
-     * Computes the average message count in the buffer every second and adds to a List
-     */
-    private void averageMessages() {
-        int currentMessageCount = buffer.getMessageCount();
-        messageCounts.add(currentMessageCount);
-    }
+//    /**
+//     * Computes the average message count in the buffer every second and adds to a List
+//     */
+//    private void averageMessages() {
+////        int currentProducedMsg = buffer.getProducedMessages();
+////        int currentConsumedMsg = buffer.getConsumedMessages();
+//        double consumedRatio = (double) buffer.getConsumedMessages() / buffer.getProducedMessages();
+//        messageRatio.add(consumedRatio);
+//    }
 
     /**
      * Logs the average message count in the buffer every 10 seconds.
      */
-    private void logAverageMessages() {
-        if (messageCounts.isEmpty()) {
+    private void logConsumedToProducerRatio() {
+        if (buffer.getProducedMessages() == 0) {
             Log.getInstance().logInfo("No data for average");
             return;
         }
-        double average = messageCounts.stream().mapToInt(Integer::intValue).average().orElse(0.0);
-        Log.getInstance().logInfo("Average number of messages in the buffer over the last 10 seconds: " + average);
-        messageCounts.clear();
+
+        double consumedRatio = ((double) buffer.getConsumedMessages() / buffer.getProducedMessages()) * 100;
+        System.out.println("Produced Messages: " + buffer.getProducedMessages());
+        System.out.println("Consumed Messages: " + buffer.getConsumedMessages());
+
+        Log.getInstance().logInfo("Average Consumed Messages: " + consumedRatio + "%");
+        buffer.setProducedMessages(0);
+        buffer.setConsumedMessages(0);
 
         // log if there are too many or too few Producers every 10 seconds
         logProducerWarnings();
@@ -246,6 +253,7 @@ public class Controller implements ProductionRegulatorInterface, PropertyChangeL
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }
 

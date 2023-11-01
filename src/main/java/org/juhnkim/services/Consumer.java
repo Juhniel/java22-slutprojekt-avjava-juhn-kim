@@ -8,6 +8,7 @@ public class Consumer implements Runnable, Serializable {
 	public int consumerInterval;
 	boolean isRunning = true;
 
+
 	public Consumer(Buffer buffer) {
 		this.buffer = buffer;
 	}
@@ -19,6 +20,8 @@ public class Consumer implements Runnable, Serializable {
 	public void setConsumerInterval(int consumerInterval) {
 		this.consumerInterval = consumerInterval;
 	}
+
+
 
 	@Override
 	public void run() {
