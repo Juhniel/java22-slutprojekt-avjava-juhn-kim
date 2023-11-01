@@ -10,13 +10,14 @@ import org.juhnkim.services.Producer;
 import org.juhnkim.utils.Log;
 import org.juhnkim.views.ProductionRegulatorGUI;
 
+import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Controller implements ProductionRegulatorInterface,PropertyChangeListener, LogEventListenerInterface {
+public class Controller implements ProductionRegulatorInterface, PropertyChangeListener, LogEventListenerInterface {
     private final LinkedList<Producer> producerLinkedList;
     private final LinkedList<Consumer> consumersLinkedList;
     private final List<Integer> messageCounts = new ArrayList<>();
@@ -24,6 +25,7 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
     private final ProductionRegulatorGUI productionRegulatorGUI;
     private boolean isAutoAdjustOn = false;
     private double balancePercentage;
+    private final javax.swing.Timer autoAdjustTimer;
 
 
     public Controller(ProductionRegulatorGUI productionRegulatorGUI, Buffer buffer) {
@@ -38,7 +40,7 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
         new javax.swing.Timer(0, e -> updateProgressBar()).start();
         new javax.swing.Timer(1000, e -> averageMessages()).start();
         new javax.swing.Timer(10000, e -> logAverageMessages()).start();
-        new javax.swing.Timer(4000, e-> autoAdjustProducers()).start();
+        autoAdjustTimer = new javax.swing.Timer(4000, e -> autoAdjustProducers());
     }
 
     /**
@@ -91,7 +93,11 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
     public void toggleAutoAdjust() {
         isAutoAdjustOn = !isAutoAdjustOn;
         productionRegulatorGUI.autoAdjustColor(isAutoAdjustOn);
-        autoAdjustProducers();
+        if (isAutoAdjustOn) {
+            autoAdjustTimer.start();
+        } else {
+            autoAdjustTimer.stop();
+        }
     }
 
     /**
@@ -150,8 +156,6 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
         State state = new State(producerLinkedList, consumersLinkedList, producerIntervals, consumerIntervals);
         StateService stateService = new StateService();
         stateService.saveState(state);
-
-        System.out.println(state);
     }
 
     /**
@@ -170,18 +174,18 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
 
             // Load Producers
             List<Integer> producerIntervals = state.getProducerIntervals();
-            for (int i = 0; i < producerIntervals.size(); i++) {
+            for (Integer producerInterval : producerIntervals) {
                 Producer producer = new Producer(buffer);
-                producer.setProducerInterval(producerIntervals.get(i));
+                producer.setProducerInterval(producerInterval);
                 producerLinkedList.add(producer);
                 new Thread(producer).start();
             }
 
             // Load Consumers
             List<Integer> consumerIntervals = state.getConsumerIntervals();
-            for (int i = 0; i < consumerIntervals.size(); i++) {
+            for (Integer consumerInterval : consumerIntervals) {
                 Consumer consumer = new Consumer(buffer);
-                consumer.setConsumerInterval(consumerIntervals.get(i));
+                consumer.setConsumerInterval(consumerInterval);
                 consumersLinkedList.add(consumer);
                 new Thread(consumer).start();
             }
@@ -197,9 +201,9 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
      */
     @Override
     public void logProducerWarnings() {
-        if(balancePercentage <= 10) {
+        if (balancePercentage <= 10) {
             Log.getInstance().logInfo("Amount of producer too low!");
-        } else if(balancePercentage >= 90) {
+        } else if (balancePercentage >= 90) {
             Log.getInstance().logInfo("Amount of producers are too high!");
         }
     }
@@ -208,33 +212,36 @@ public class Controller implements ProductionRegulatorInterface,PropertyChangeLi
      * Auto-adjusts the number of Producers to balance the buffer fill level.
      */
 
-    double lowerThreshold = 35.0;
-    double upperThreshold = 75.0;
+
+
     @Override
     public void autoAdjustProducers() {
-            if (balancePercentage < lowerThreshold) {
-                addProducer();
-                Log.getInstance().logInfo("Too few producers! Added a new producer.");
-            } else if (balancePercentage > upperThreshold) {
-                removeProducer();
-                Log.getInstance().logInfo("Too many producers! Removed a producer.");
-            }
+        double lowerThreshold = 35.0;
+        double upperThreshold = 65.0;
 
+
+        if (balancePercentage < lowerThreshold) {
+            addProducer();
+            Log.getInstance().logInfo("Too few producers! Added a new producer.");
+        } else if (balancePercentage > upperThreshold) {
+            removeProducer();
+            Log.getInstance().logInfo("Too many producers! Removed a producer.");
         }
-//    }
+    }
 
     /**
      * Handles log events to display them on the GUI.
+     *
      * @param message Log message
-     * Implements LogEventListerInterface
+     *                Implements LogEventListerInterface
      */
     @Override
     public void onLogEvent(String message) {
-        String existingText = productionRegulatorGUI.getTextArea().getText();
-        productionRegulatorGUI.getTextArea().setText(message + "\n" + existingText);
-
-        // Setting the scroll to top always, so it does not move to the bottom when new logs get appended.
-        productionRegulatorGUI.getTextArea().setCaretPosition(0);
+        SwingUtilities.invokeLater(() -> {
+            String existingText = productionRegulatorGUI.getTextArea().getText();
+            productionRegulatorGUI.getTextArea().setText(message + "\n" + existingText);
+            productionRegulatorGUI.getTextArea().setCaretPosition(0);
+        });
     }
 
     @Override
