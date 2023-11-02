@@ -44,15 +44,14 @@ public class StateService {
         try {
             State loadedState = loadStateFromFile();
             if (loadedState != null) {
-
+                for (Producer producer : state.getProducerList()) {
+                    Log.getInstance().logInfo("Loaded Producer: " + producer.toString());
+                }
 
                 clearCurrentState(state, buffer);
-
-                state = loadedState;
-
+                state.updateState(loadedState);
                 buffer.setAllMessagesInBuffer(state.getMessageList());
                 restartThreads();
-
 
                 Log.getInstance().logInfo("Application state loaded successfully.");
                 Log.getInstance().logInfo("Producers: " + state.getProducerList().size());
@@ -75,6 +74,14 @@ public class StateService {
         return state;
     }
 
+//    private State createState(LinkedList<Producer> producers, List<Consumer> consumers, List<Message> messages) {
+//        State state = new State();
+//        state.setProducerList(producers);
+//        state.setConsumerList(consumers);
+//        state.setMessageList(messages);
+//        return state;
+//    }
+
     // Helper method to clear State object
     private void clearCurrentState(State state, Buffer buffer) {
         state.getProducerList().clear();
@@ -84,8 +91,8 @@ public class StateService {
     }
 
     // Helper method to restart all threads
-    private synchronized void restartThreads() {
-        producerService.restartProducerThreads();
+    private void restartThreads() {
+        producerService.restartProducerThreads(state);
         consumerService.restartConsumerThreads();
     }
 
@@ -108,6 +115,9 @@ public class StateService {
                 new FileInputStream(STATE_FILE_PATH)
         )) {
             State state = (State) ois.readObject();
+            for (Producer producer : state.getProducerList()) {
+                System.out.println(producer);
+            }
             Log.getInstance().logInfo("State loaded from file.");
             return state;
         } catch (IOException | ClassNotFoundException e) {

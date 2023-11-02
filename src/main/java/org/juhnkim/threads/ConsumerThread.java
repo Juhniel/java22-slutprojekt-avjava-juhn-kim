@@ -8,15 +8,17 @@ import java.io.Serializable;
 public class ConsumerThread implements Runnable, Serializable {
     private final Buffer buffer;
     private final Consumer consumer;
-    boolean isRunning = true;
+    private boolean isRunning;
 
     public ConsumerThread(Buffer buffer, Consumer consumer) {
         this.buffer = buffer;
         this.consumer = consumer;
+        this.isRunning = true;
     }
 
     public void stop() {
         isRunning = false;
+        Thread.currentThread().interrupt();
     }
 
     @Override
@@ -25,6 +27,7 @@ public class ConsumerThread implements Runnable, Serializable {
             try {
                 Thread.sleep(consumer.getConsumerInterval());
                 buffer.remove();
+                System.out.println("Consumed");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

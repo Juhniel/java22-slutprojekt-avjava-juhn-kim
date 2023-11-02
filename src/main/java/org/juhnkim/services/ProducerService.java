@@ -30,13 +30,10 @@ public class ProducerService {
 
     public void addProducer() {
         Producer producer = new Producer();
+        state.getProducerList().add(producer);
         ProducerThread producerThread = new ProducerThread(buffer, producer);
         producerThreadList.add(producerThread);
-
         new Thread(producerThread).start();
-
-        // Add the producer to the state for state tracking
-        state.getProducerList().add(producer);
 
         Log.getInstance().logInfo("Producer Added");
         Log.getInstance().logInfo("Producer Count: " + state.getProducerList().size());
@@ -58,20 +55,28 @@ public class ProducerService {
         }
     }
 
-    public void restartProducerThreads() {
-        stopAllProducers();
+    public void restartProducerThreads(State loadedState) {
+        Log.getInstance().logInfo("Stopping all producers before restart.");
+        Log.getInstance().logInfo("inside restartProducerThreads(): " + loadedState.getProducerList().size());
 
-        for (Producer producer : state.getProducerList()) {
-            ProducerThread pt = new ProducerThread(buffer, producer);
-            new Thread(pt).start();
-            producerThreadList.add(pt);
+        if (state.getProducerList().isEmpty()) {
+            Log.getInstance().logInfo("No producers to start.");
         }
+        for (Producer producer : loadedState.getProducerList()) {
+            ProducerThread producerThread = new ProducerThread(buffer, producer);
+            new Thread(producerThread).start();
+            producerThreadList.add(producerThread);
+            Log.getInstance().logInfo("Started producer thread with interval: " + producer.getProducerInterval());
+        }
+        Log.getInstance().logInfo("All producer threads restarted.");
     }
 
-    private void stopAllProducers() {
+    public void stopAllProducers() {
+        Log.getInstance().logInfo("Stopping producer thread.");
         for (ProducerThread producerThread : producerThreadList) {
             producerThread.stop();
         }
+        Log.getInstance().logInfo("All producer threads have been signaled to stop.");
     }
 
     public void autoAdjustProducers() {

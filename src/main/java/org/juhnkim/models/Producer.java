@@ -1,9 +1,11 @@
 package org.juhnkim.models;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Random;
 
 public class Producer implements Serializable {
+
 	private int producerInterval;
 
 	public Producer() {
@@ -17,6 +19,14 @@ public class Producer implements Serializable {
 
 	public void setProducerInterval(int producerInterval) {
 		this.producerInterval = producerInterval;
+	}
+
+	@Override
+	public String toString() {
+		return "Producer{" +
+				"producerInterval=" + producerInterval +
+				// Include other properties here
+				'}';
 	}
 }
 

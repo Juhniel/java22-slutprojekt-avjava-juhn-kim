@@ -1,11 +1,13 @@
 package org.juhnkim.models;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
 public class Message implements Serializable {
+
     private final String id;
     private final String body;
     private final LocalDate localDate;

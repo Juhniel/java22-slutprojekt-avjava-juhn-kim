@@ -27,8 +27,8 @@ public class Main {
         LogController logController = new LogController(buffer);
 
 
-
         new MainController(stateController, producerController, consumerController, propertyChangeService, productionRegulatorGUI, logController);
         productionRegulatorGUI.getFrame().setVisible(true);
+
     }
 }

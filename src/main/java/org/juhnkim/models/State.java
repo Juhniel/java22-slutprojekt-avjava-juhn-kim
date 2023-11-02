@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class State implements Serializable {
+    private static final long serialVersionUID = -3616798157854925332L;
 
     private LinkedList<Producer> producerList;
     private List<Consumer> consumerList;
@@ -24,6 +25,12 @@ public class State implements Serializable {
         this.producerList = producerList;
         this.consumerList = consumerList;
         this.messageList = messageList;
+    }
+
+    public void updateState(State newState) {
+        setProducerList(newState.getProducerList());
+        setConsumerList(newState.getConsumerList());
+        setMessageList(newState.getMessageList());
     }
 
     public LinkedList<Producer> getProducerList() {
