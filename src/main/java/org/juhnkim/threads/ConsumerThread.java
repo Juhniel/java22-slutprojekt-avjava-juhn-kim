@@ -1,16 +1,16 @@
-package org.juhnkim.services;
+package org.juhnkim.threads;
 
 import org.juhnkim.models.Consumer;
+import org.juhnkim.services.Buffer;
 
 import java.io.Serializable;
-import java.util.Random;
 
-public class ConsumerService implements Runnable, Serializable {
+public class ConsumerThread implements Runnable, Serializable {
     private final Buffer buffer;
     private final Consumer consumer;
     boolean isRunning = true;
 
-    public ConsumerService(Buffer buffer, Consumer consumer) {
+    public ConsumerThread(Buffer buffer, Consumer consumer) {
         this.buffer = buffer;
         this.consumer = consumer;
     }

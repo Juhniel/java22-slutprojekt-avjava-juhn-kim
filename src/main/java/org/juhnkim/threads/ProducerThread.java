@@ -1,19 +1,20 @@
-package org.juhnkim.services;
+package org.juhnkim.threads;
 
 import org.juhnkim.models.Message;
 import org.juhnkim.models.Producer;
+import org.juhnkim.services.Buffer;
 import org.juhnkim.utils.Log;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class ProducerService implements Runnable {
+public class ProducerThread implements Runnable {
     private final Buffer buffer;
     private final Producer producer;
     volatile boolean isRunning = true;
 
 
-    public ProducerService(Buffer buffer, Producer producer) {
+    public ProducerThread(Buffer buffer, Producer producer) {
         this.buffer = buffer;
         this.producer = producer;
     }

@@ -13,13 +13,14 @@ public class Main {
         productionRegulatorGUI.initializeUI();
 
         // Initialize Controllers
-        ThreadController threadController = new ThreadController(productionRegulatorGUI, buffer);
+        ProducerController producerController = new ProducerController(productionRegulatorGUI, buffer);
+        ConsumerController consumerController = new ConsumerController(buffer);
         StateController stateController = new StateController(buffer);
         LogController logController = new LogController(buffer);
 
 
         PropertyChangeService propertyChangeService = new PropertyChangeService(productionRegulatorGUI, buffer);
-        new Controller(stateController, threadController, propertyChangeService, productionRegulatorGUI, logController);
+        new Controller(stateController, producerController, consumerController, propertyChangeService, productionRegulatorGUI, logController);
         productionRegulatorGUI.getFrame().setVisible(true);
     }
 }

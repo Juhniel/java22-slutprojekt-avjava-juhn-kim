@@ -6,62 +6,43 @@ import java.util.List;
 
 public class State implements Serializable {
 
-    private int numProducers;
-    private int numConsumers;
-    private final LinkedList<Producer> producerList;
-    private final List<Consumer> consumerList;
-    private final LinkedList<Integer> producerIntervals;
-    private final List<Integer> consumerIntervals;
-    private final List<Message> messageList;
+    private LinkedList<Producer> producerList;
+    private List<Consumer> consumerList;
+    private List<Message> messageList;
 
+    public State() {
+
+    }
     public State(LinkedList<Producer> producerList,
                  List<Consumer> consumerList,
-                 LinkedList<Integer> producerIntervals,
-                 List<Integer> consumerIntervals,
                  List<Message> messageList) {
 
         this.producerList = producerList;
         this.consumerList = consumerList;
-        this.producerIntervals = producerIntervals;
-        this.consumerIntervals = consumerIntervals;
         this.messageList = messageList;
     }
 
-
-    public int getNumProducers() {
-        return numProducers;
-    }
-
-    public void setNumProducers(int numProducers) {
-        this.numProducers = numProducers;
-    }
-
-    public int getNumConsumers() {
-        return numConsumers;
-    }
-
-    public void setNumConsumers(int numConsumers) {
-        this.numConsumers = numConsumers;
-    }
-
-    public List<Producer> getProducerList() {
+    public LinkedList<Producer> getProducerList() {
         return producerList;
+    }
+
+    public void setProducerList(LinkedList<Producer> producerList) {
+        this.producerList = producerList;
     }
 
     public List<Consumer> getConsumerList() {
         return consumerList;
     }
 
-    public LinkedList<Integer> getProducerIntervals() {
-        return producerIntervals;
-    }
-
-    public List<Integer> getConsumerIntervals() {
-        return consumerIntervals;
+    public void setConsumerList(List<Consumer> consumerList) {
+        this.consumerList = consumerList;
     }
 
     public List<Message> getMessageList() {
         return messageList;
     }
 
+    public void setMessageList(List<Message> messageList) {
+        this.messageList = messageList;
+    }
 }

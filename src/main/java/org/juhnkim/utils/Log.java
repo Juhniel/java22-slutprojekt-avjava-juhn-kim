@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.juhnkim.interfaces.LogEventListenerInterface;
 
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,6 +56,17 @@ public class Log {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss.SSS");
         String dateString = sdf.format(new Date());
         String messageWithDate = "[" + dateString + "] - " + message;
+
+        // Log the message and notify listeners
+        logger.info(messageWithDate);
+        notifyListeners(messageWithDate);
+    }
+
+    public void logError(String message) {
+        // For creating date and time
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss.SSS");
+        String dateString = sdf.format(new Date());
+        String messageWithDate = "[" + dateString + "] - " + message + Color.RED;
 
         // Log the message and notify listeners
         logger.info(messageWithDate);

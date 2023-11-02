@@ -9,22 +9,24 @@ import javax.swing.*;
 
 public class Controller implements LogEventListenerInterface {
     private final StateController stateController;
-    private final ThreadController threadController;
+    private final ProducerController producerController;
+    private final ConsumerController consumerController;
     private final LogController logController;
     private final ProductionRegulatorGUI productionRegulatorGUI;
-
     private final PropertyChangeService propertyChangeService;
 
     public Controller(
             StateController stateController,
-            ThreadController threadController,
+            ProducerController producerController,
+            ConsumerController consumerController,
             PropertyChangeService propertyChangeService,
             ProductionRegulatorGUI productionRegulatorGUI,
             LogController logController) {
 
         this.logController = logController;
         this.stateController = stateController;
-        this.threadController = threadController;
+        this.producerController = producerController;
+        this.consumerController = consumerController;
         this.productionRegulatorGUI = productionRegulatorGUI;
         this.propertyChangeService = propertyChangeService;
         Log.getInstance().addLogEventListener(this);
@@ -46,15 +48,15 @@ public class Controller implements LogEventListenerInterface {
     }
 
     public void initConsumers() {
-        threadController.initConsumers();
+        consumerController.initConsumers();
     }
 
     public void addProducer() {
-        threadController.addProducer();
+        producerController.addProducer();
     }
 
     public void removeProducer() {
-        threadController.removeProducer();
+        producerController.removeProducer();
     }
 
     public void saveCurrentState() {
@@ -74,7 +76,7 @@ public class Controller implements LogEventListenerInterface {
     }
 
     public void toggleAutoAdjust() {
-        threadController.toggleAutoAdjust();
+        producerController.toggleAutoAdjust();
     }
 
     @Override
