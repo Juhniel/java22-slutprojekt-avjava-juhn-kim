@@ -1,8 +1,7 @@
 package org.juhnkim;
 
 import org.juhnkim.controllers.*;
-import org.juhnkim.services.Buffer;
-import org.juhnkim.services.PropertyChangeService;
+import org.juhnkim.services.*;
 import org.juhnkim.views.ProductionRegulatorGUI;
 
 public class Main {
@@ -12,9 +11,14 @@ public class Main {
         ProductionRegulatorGUI productionRegulatorGUI = new ProductionRegulatorGUI();
         productionRegulatorGUI.initializeUI();
 
+        ProducerService producerService = new ProducerService();
+        ConsumerService consumerService = new ConsumerService();
+        StateService stateService = new StateService();
+
+
         // Initialize Controllers
-        ProducerController producerController = new ProducerController(productionRegulatorGUI, buffer);
-        ConsumerController consumerController = new ConsumerController(buffer);
+        ProducerController producerController = new ProducerController(productionRegulatorGUI, producerService);
+        ConsumerController consumerController = new ConsumerController(buffer, state);
         StateController stateController = new StateController(buffer);
         LogController logController = new LogController(buffer);
 
