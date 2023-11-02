@@ -8,7 +8,7 @@ import org.juhnkim.utils.Log;
 
 public class StateController {
     private final Buffer buffer;
-    private final State state;
+    private State state;
     private final StateService stateService;
 
     public StateController(Buffer buffer) {
@@ -37,7 +37,7 @@ public class StateController {
             State loadedState = stateService.loadApplicationState();
             if (loadedState != null) {
                 // Restore the state here or pass it to where it needs to go
-                this.state = loadedState;
+                state = loadedState;
                 // Here you might want to restart producers/consumers, update the GUI, etc.
                 Log.getInstance().logInfo("Application state loaded successfully.");
             } else {

@@ -1,34 +1,17 @@
 package org.juhnkim.controllers;
 
-import org.juhnkim.models.Consumer;
+import org.juhnkim.models.State;
 import org.juhnkim.services.Buffer;
-import org.juhnkim.threads.ConsumerThread;
-
-import java.util.List;
-
+import org.juhnkim.services.ConsumerService;
 
 public class ConsumerController {
-    private final Buffer buffer;
+    private final ConsumerService consumerService;
 
-    public ConsumerController(Buffer buffer) {
-        this.buffer = buffer;
+    public ConsumerController(Buffer buffer, State state) {
+        this.consumerService = new ConsumerService(buffer, state);
     }
 
-    public void initConsumers() {
-        int numConsumers = (int) (Math.random() * 13) + 3;
-        for (int i = 0; i < numConsumers; i++) {
-            Consumer consumer = new Consumer();
-            ConsumerThread consumerThread = new ConsumerThread(buffer, consumer);
-            consumerList.add(consumer);
-            new Thread(consumerThread).start();
-        }
-        System.out.println("Consumers: " + consumerList.size());
+    public void initialize() {
+        consumerService.initConsumers();
     }
-
-
-
-    public List<Consumer> getConsumerList() {
-        return consumerList;
-    }
-
 }

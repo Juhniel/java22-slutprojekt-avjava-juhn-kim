@@ -1,6 +1,5 @@
 package org.juhnkim.services;
 
-import org.juhnkim.controllers.StateController;
 import org.juhnkim.models.Consumer;
 import org.juhnkim.models.Message;
 import org.juhnkim.models.Producer;
@@ -8,7 +7,6 @@ import org.juhnkim.models.State;
 import org.juhnkim.utils.Log;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -61,5 +59,4 @@ public class StateService {
             return null;
         }
     }
-}
 }
