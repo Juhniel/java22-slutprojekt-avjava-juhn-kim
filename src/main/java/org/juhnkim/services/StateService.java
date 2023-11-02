@@ -4,6 +4,7 @@ import org.juhnkim.models.Consumer;
 import org.juhnkim.models.Message;
 import org.juhnkim.models.Producer;
 import org.juhnkim.models.State;
+import org.juhnkim.threads.ProducerThread;
 import org.juhnkim.utils.Log;
 
 import java.io.*;
@@ -13,6 +14,11 @@ import java.util.List;
 public class StateService {
 
     private static final String STATE_FILE_PATH = "files/state.dat";
+    private final ProducerService producerService;
+
+    public StateService(ProducerService producerService) {
+        this.producerService = producerService;
+    }
 
     // Save the current application state to a file
     public void saveApplicationState(List<Producer> producers, List<Consumer> consumers, List<Message> messages) {
@@ -36,13 +42,15 @@ public class StateService {
 
     // Helper method to clear State object
     private void clearCurrentState(State state, Buffer buffer) {
-//        for(ProducerThread pt : ) {
-//
-//        }
+
+        for(ProducerThread pt : producerService.getProducerThreadList()) {
+            pt.stop();
+        }
+
         state.getProducerList().clear();
         state.getConsumerList().clear();
-        state.setMessageList(new LinkedList<>());
-        buffer.getAllMessagesInBuffer().clear(); // Assuming Buffer class has a method to clear messages
+//        state.setMessageList(new LinkedList<>());
+        buffer.getAllMessagesInBuffer().clear();
 
         Log.getInstance().logInfo("Current state cleared successfully.");
     }

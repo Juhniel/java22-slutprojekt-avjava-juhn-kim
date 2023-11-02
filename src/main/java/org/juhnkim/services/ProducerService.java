@@ -18,6 +18,7 @@ public class ProducerService {
     private final LinkedList<ProducerThread> producerThreadList;
 
 
+
     public ProducerService(ProductionRegulatorGUI productionRegulatorGUI, Buffer buffer, State state) {
         this.state = state;
         this.productionRegulatorGUI = productionRegulatorGUI;
@@ -25,19 +26,6 @@ public class ProducerService {
         this.producerThreadList = new LinkedList<>();
         this.propertyChangeService = new PropertyChangeService(productionRegulatorGUI, buffer);
         this.autoAdjustTimer = new javax.swing.Timer(4000, e -> autoAdjustProducers());
-    }
-
-    public void autoAdjustProducers() {
-        double lowerThreshold = 35.0;
-        double upperThreshold = 65.0;
-        double balancePercentage = propertyChangeService.getBalancePercentage();
-        if (balancePercentage < lowerThreshold) {
-            addProducer();
-            Log.getInstance().logInfo("Too few producers! Added a new producer.");
-        } else if (balancePercentage > upperThreshold) {
-            removeProducer();
-            Log.getInstance().logInfo("Too many producers! Removed a producer.");
-        }
     }
 
     public void addProducer() {
@@ -72,6 +60,19 @@ public class ProducerService {
         }
     }
 
+    public void autoAdjustProducers() {
+        double lowerThreshold = 35.0;
+        double upperThreshold = 65.0;
+        double balancePercentage = propertyChangeService.getBalancePercentage();
+        if (balancePercentage < lowerThreshold) {
+            addProducer();
+            Log.getInstance().logInfo("Too few producers! Added a new producer.");
+        } else if (balancePercentage > upperThreshold) {
+            removeProducer();
+            Log.getInstance().logInfo("Too many producers! Removed a producer.");
+        }
+    }
+
     public void toggleAutoAdjust() {
         isAutoAdjustOn = !isAutoAdjustOn;
         productionRegulatorGUI.autoAdjustColor(isAutoAdjustOn);
@@ -80,5 +81,9 @@ public class ProducerService {
         } else {
             autoAdjustTimer.stop();
         }
+    }
+
+    public LinkedList<ProducerThread> getProducerThreadList() {
+        return producerThreadList;
     }
 }
