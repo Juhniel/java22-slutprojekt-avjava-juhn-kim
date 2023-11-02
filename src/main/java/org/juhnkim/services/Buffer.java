@@ -39,7 +39,6 @@ public class Buffer implements Serializable {
 			this.queue.clear();
 			this.queue.addAll(messages);
 		}
-
 	}
 	
 	public synchronized Message remove() {

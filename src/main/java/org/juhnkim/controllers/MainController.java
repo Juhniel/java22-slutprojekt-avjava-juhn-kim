@@ -7,7 +7,7 @@ import org.juhnkim.views.ProductionRegulatorGUI;
 
 import javax.swing.*;
 
-public class Controller implements LogEventListenerInterface {
+public class MainController implements LogEventListenerInterface {
     private final StateController stateController;
     private final ProducerController producerController;
     private final ConsumerController consumerController;
@@ -15,7 +15,7 @@ public class Controller implements LogEventListenerInterface {
     private final ProductionRegulatorGUI productionRegulatorGUI;
     private final PropertyChangeService propertyChangeService;
 
-    public Controller(
+    public MainController(
             StateController stateController,
             ProducerController producerController,
             ConsumerController consumerController,

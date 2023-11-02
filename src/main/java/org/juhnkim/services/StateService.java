@@ -34,6 +34,20 @@ public class StateService {
         return state;
     }
 
+    // Helper method to clear State object
+    private void clearCurrentState(State state, Buffer buffer) {
+//        for(ProducerThread pt : ) {
+//
+//        }
+        state.getProducerList().clear();
+        state.getConsumerList().clear();
+        state.setMessageList(new LinkedList<>());
+        buffer.getAllMessagesInBuffer().clear(); // Assuming Buffer class has a method to clear messages
+
+        Log.getInstance().logInfo("Current state cleared successfully.");
+    }
+
+
     // Serialize the State object to a file
     private void saveStateToFile(State state) {
         try (ObjectOutputStream oos = new ObjectOutputStream(
