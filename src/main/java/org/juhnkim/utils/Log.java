@@ -29,6 +29,7 @@ public class Log {
 
     /**
      * Method to get the singleton instance of Log
+     *
      * @return instance of Log
      */
     public static Log getInstance() {
@@ -40,6 +41,7 @@ public class Log {
 
     /**
      * Method to add a new LogEventListener
+     *
      * @param listener instance of a class that implements LogEventListener
      */
     public void addLogEventListener(LogEventListenerInterface listener) {
@@ -49,6 +51,7 @@ public class Log {
     /**
      * Method to log informational messages.
      * It also notifies all the registered log event listeners.
+     *
      * @param message the message to be logged
      */
     public void logInfo(String message) {
@@ -75,6 +78,7 @@ public class Log {
 
     /**
      * Private method to notify all registered log event listeners
+     *
      * @param message the message to be sent to listeners
      */
     private void notifyListeners(String message) {

@@ -15,6 +15,10 @@ public class ConsumerThread implements Runnable, Serializable {
         this.consumer = consumer;
     }
 
+    public void stop() {
+        isRunning = false;
+    }
+
     @Override
     public void run() {
         while (isRunning) {

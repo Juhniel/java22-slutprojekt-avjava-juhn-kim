@@ -16,6 +16,7 @@ public class State implements Serializable {
         this.consumerList = new ArrayList<>();
         this.messageList = new ArrayList<>();
     }
+
     public State(LinkedList<Producer> producerList,
                  List<Consumer> consumerList,
                  List<Message> messageList) {

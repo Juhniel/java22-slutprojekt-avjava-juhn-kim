@@ -5,18 +5,18 @@ import java.util.Random;
 
 public class Consumer implements Serializable {
 
-	private int consumerInterval;
+    private int consumerInterval;
 
-	public Consumer() {
-		Random random = new Random();
-		this.consumerInterval = (random.nextInt(10) + 1) * 1000;
-	}
+    public Consumer() {
+        Random random = new Random();
+        this.consumerInterval = (random.nextInt(10) + 1) * 1000;
+    }
 
-	public int getConsumerInterval() {
-		return consumerInterval;
-	}
+    public int getConsumerInterval() {
+        return consumerInterval;
+    }
 
-	public void setConsumerInterval(int consumerInterval) {
-		this.consumerInterval = consumerInterval;
-	}
+    public void setConsumerInterval(int consumerInterval) {
+        this.consumerInterval = consumerInterval;
+    }
 }

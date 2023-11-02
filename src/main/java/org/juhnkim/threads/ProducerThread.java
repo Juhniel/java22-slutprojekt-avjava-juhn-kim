@@ -26,7 +26,7 @@ public class ProducerThread implements Runnable {
     @Override
     public void run() {
         String text = "Random text";
-        Log.getInstance().logInfo("Producer will sleep for " + producer.getProducerInterval() +" milliseconds before producing the next message");
+        Log.getInstance().logInfo("Producer will sleep for " + producer.getProducerInterval() + " milliseconds before producing the next message");
         while (isRunning) {
             try {
                 Thread.sleep(producer.getProducerInterval());

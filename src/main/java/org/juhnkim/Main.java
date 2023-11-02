@@ -16,18 +16,18 @@ public class Main {
 
         // Initialize Services
         ProducerService producerService = new ProducerService(productionRegulatorGUI, buffer, state);
-        ConsumerService consumerService= new ConsumerService(buffer, state);
-        StateService stateService = new StateService();
-
+        ConsumerService consumerService = new ConsumerService(buffer, state);
+        StateService stateService = new StateService(producerService, consumerService, state, buffer);
+        PropertyChangeService propertyChangeService = new PropertyChangeService(productionRegulatorGUI, buffer);
 
         // Initialize Controllers
         ProducerController producerController = new ProducerController(producerService);
         ConsumerController consumerController = new ConsumerController(consumerService);
-        StateController stateController = new StateController(buffer, state, stateService);
+        StateController stateController = new StateController(stateService);
         LogController logController = new LogController(buffer);
 
 
-        PropertyChangeService propertyChangeService = new PropertyChangeService(productionRegulatorGUI, buffer);
+
         new MainController(stateController, producerController, consumerController, propertyChangeService, productionRegulatorGUI, logController);
         productionRegulatorGUI.getFrame().setVisible(true);
     }

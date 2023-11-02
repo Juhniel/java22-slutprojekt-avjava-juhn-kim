@@ -7,6 +7,7 @@ import org.juhnkim.utils.Log;
 import org.juhnkim.views.ProductionRegulatorGUI;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class ProducerService {
     private final State state;
@@ -16,7 +17,6 @@ public class ProducerService {
     private boolean isAutoAdjustOn;
     private final javax.swing.Timer autoAdjustTimer;
     private final LinkedList<ProducerThread> producerThreadList;
-
 
 
     public ProducerService(ProductionRegulatorGUI productionRegulatorGUI, Buffer buffer, State state) {
@@ -30,14 +30,12 @@ public class ProducerService {
 
     public void addProducer() {
         Producer producer = new Producer();
-        // Here we create the thread that will run the producer
         ProducerThread producerThread = new ProducerThread(buffer, producer);
-        // Add the producer thread to the list of running threads
         producerThreadList.add(producerThread);
-        // Now start the thread
+
         new Thread(producerThread).start();
 
-        // Add the producer to the state for state tracking, not thread management
+        // Add the producer to the state for state tracking
         state.getProducerList().add(producer);
 
         Log.getInstance().logInfo("Producer Added");
@@ -57,6 +55,22 @@ public class ProducerService {
 
             Log.getInstance().logInfo("Producer Removed");
             Log.getInstance().logInfo("Producer Count: " + state.getProducerList().size());
+        }
+    }
+
+    public void restartProducerThreads() {
+        stopAllProducers();
+
+        for (Producer producer : state.getProducerList()) {
+            ProducerThread pt = new ProducerThread(buffer, producer);
+            new Thread(pt).start();
+            producerThreadList.add(pt);
+        }
+    }
+
+    private void stopAllProducers() {
+        for (ProducerThread producerThread : producerThreadList) {
+            producerThread.stop();
         }
     }
 

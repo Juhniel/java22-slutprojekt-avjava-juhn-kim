@@ -4,7 +4,6 @@ import org.juhnkim.models.Consumer;
 import org.juhnkim.models.Message;
 import org.juhnkim.models.Producer;
 import org.juhnkim.models.State;
-import org.juhnkim.threads.ProducerThread;
 import org.juhnkim.utils.Log;
 
 import java.io.*;
@@ -15,20 +14,56 @@ public class StateService {
 
     private static final String STATE_FILE_PATH = "files/state.dat";
     private final ProducerService producerService;
+    private final ConsumerService consumerService;
+    private final Buffer buffer;
+    private State state;
 
-    public StateService(ProducerService producerService) {
+    public StateService(ProducerService producerService, ConsumerService consumerService, State state, Buffer buffer) {
         this.producerService = producerService;
+        this.consumerService = consumerService;
+        this.state = state;
+        this.buffer = buffer;
     }
 
-    // Save the current application state to a file
-    public void saveApplicationState(List<Producer> producers, List<Consumer> consumers, List<Message> messages) {
-        State state = createState(producers, consumers, messages);
-        saveStateToFile(state);
+    public synchronized void saveApplicationState() {
+        state = createState(state.getProducerList(), state.getConsumerList(), buffer.getAllMessagesInBuffer());
+
+        try {
+            saveStateToFile(state);
+            Log.getInstance().logInfo("Current application state saved successfully.");
+            Log.getInstance().logInfo("Producers: " + state.getProducerList().size());
+            Log.getInstance().logInfo("Consumers: " + state.getConsumerList().size());
+            Log.getInstance().logInfo("Messages: " + state.getMessageList().size());
+        } catch (Exception e) {
+            Log.getInstance().logError("Failed to save current application state: " + e.getMessage());
+        }
     }
 
     // Load the application state from a file and return it
-    public State loadApplicationState() {
-        return loadStateFromFile();
+    public synchronized void loadApplicationState() {
+        try {
+            State loadedState = loadStateFromFile();
+            if (loadedState != null) {
+
+
+                clearCurrentState(state, buffer);
+
+                state = loadedState;
+
+                buffer.setAllMessagesInBuffer(state.getMessageList());
+                restartThreads();
+
+
+                Log.getInstance().logInfo("Application state loaded successfully.");
+                Log.getInstance().logInfo("Producers: " + state.getProducerList().size());
+                Log.getInstance().logInfo("Consumers: " + state.getConsumerList().size());
+                Log.getInstance().logInfo("Messages: " + state.getMessageList().size());
+            } else {
+                Log.getInstance().logError("No saved state to load.");
+            }
+        } catch (Exception e) {
+            Log.getInstance().logError("Failed to load saved application state: " + e.getMessage());
+        }
     }
 
     // Helper method to create a State object
@@ -42,17 +77,16 @@ public class StateService {
 
     // Helper method to clear State object
     private void clearCurrentState(State state, Buffer buffer) {
-
-        for(ProducerThread pt : producerService.getProducerThreadList()) {
-            pt.stop();
-        }
-
         state.getProducerList().clear();
         state.getConsumerList().clear();
-//        state.setMessageList(new LinkedList<>());
-        buffer.getAllMessagesInBuffer().clear();
-
+        buffer.clear();
         Log.getInstance().logInfo("Current state cleared successfully.");
+    }
+
+    // Helper method to restart all threads
+    private synchronized void restartThreads() {
+        producerService.restartProducerThreads();
+        consumerService.restartConsumerThreads();
     }
 
 

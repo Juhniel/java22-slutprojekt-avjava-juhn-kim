@@ -110,7 +110,7 @@ public class ProductionRegulatorGUI {
     }
 
     public void autoAdjustColor(boolean autoAdjust) {
-        if(autoAdjust) {
+        if (autoAdjust) {
             autoAdjustButton.setBackground(Color.GREEN);
         } else {
             autoAdjustButton.setBackground(null);
