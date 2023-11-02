@@ -1,6 +1,7 @@
 package org.juhnkim.models;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +12,9 @@ public class State implements Serializable {
     private List<Message> messageList;
 
     public State() {
-
+        this.producerList = new LinkedList<>();
+        this.consumerList = new ArrayList<>();
+        this.messageList = new ArrayList<>();
     }
     public State(LinkedList<Producer> producerList,
                  List<Consumer> consumerList,

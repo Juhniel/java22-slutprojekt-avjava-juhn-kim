@@ -48,7 +48,7 @@ public class Controller implements LogEventListenerInterface {
     }
 
     public void initConsumers() {
-        consumerController.initConsumers();
+        consumerController.initialize();
     }
 
     public void addProducer() {

@@ -71,6 +71,7 @@ public class ProducerService {
             Log.getInstance().logInfo("Producer Count: " + state.getProducerList().size());
         }
     }
+
     public void toggleAutoAdjust() {
         isAutoAdjustOn = !isAutoAdjustOn;
         productionRegulatorGUI.autoAdjustColor(isAutoAdjustOn);
