@@ -8,8 +8,8 @@ and observe the results of their changes.
 
 # Introduction
 The producer-consumer problem is a standard example of a multiprocess synchronization issue, 
-involving coordinating producers (who generate data) and consumers (who use that data). In our simulation, 
-we ensure thread safety and manage state between these actors to prevent race conditions and deadlocks.
+involving coordinating producers (who generate data) and consumers (who use that data). In my simulation, 
+we ensure thread safety and manage state between these actors.
 
 The core components of this project are modeled in separate packages:
 
