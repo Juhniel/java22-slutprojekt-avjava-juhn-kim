@@ -65,16 +65,6 @@ public class Log {
         notifyListeners(messageWithDate);
     }
 
-    public void logWarn(String message) {
-        // For creating date and time
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss.SSS");
-        String dateString = sdf.format(new Date());
-        String messageWithDate = "[" + dateString + "] - " + message;
-
-        // Log the message and notify listeners
-        logger.warn(messageWithDate);
-        notifyListeners(messageWithDate);
-    }
 
     public void logError(String message) {
         // For creating date and time
