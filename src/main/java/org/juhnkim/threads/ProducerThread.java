@@ -33,6 +33,7 @@ public class ProducerThread implements Runnable {
             try {
                 Thread.sleep(producer.getProducerInterval());
                 buffer.add(new Message(text, LocalDate.now(), LocalTime.now()));
+                System.out.println("Produced!!!!");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

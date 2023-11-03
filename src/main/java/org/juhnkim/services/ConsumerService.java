@@ -1,10 +1,9 @@
 package org.juhnkim.services;
 
 import org.juhnkim.models.Consumer;
-import org.juhnkim.models.Producer;
 import org.juhnkim.models.State;
 import org.juhnkim.threads.ConsumerThread;
-import org.juhnkim.threads.ProducerThread;
+import org.juhnkim.utils.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +37,7 @@ public class ConsumerService {
         for (Consumer consumer : state.getConsumerList()) {
             ConsumerThread ct = new ConsumerThread(buffer, consumer);
             new Thread(ct).start();
+            Log.getInstance().logInfo("Consumer Thread Started");
             consumerThreadList.add(ct);
         }
     }
@@ -45,6 +45,7 @@ public class ConsumerService {
     private void stopAllConsumers() {
         for (ConsumerThread consumerThread : consumerThreadList) {
             consumerThread.stop();
+            Log.getInstance().logInfo("Consumer Thread Stopped");
         }
     }
 }

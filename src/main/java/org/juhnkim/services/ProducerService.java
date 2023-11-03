@@ -14,18 +14,20 @@ public class ProducerService {
     private final Buffer buffer;
     private final ProductionRegulatorGUI productionRegulatorGUI;
     private final PropertyChangeService propertyChangeService;
+    private final AutoAdjustService autoAdjustService;
     private boolean isAutoAdjustOn;
     private final javax.swing.Timer autoAdjustTimer;
     private final LinkedList<ProducerThread> producerThreadList;
 
 
-    public ProducerService(ProductionRegulatorGUI productionRegulatorGUI, Buffer buffer, State state) {
+    public ProducerService(ProductionRegulatorGUI productionRegulatorGUI, AutoAdjustService autoAdjustService,  Buffer buffer, State state) {
         this.state = state;
         this.productionRegulatorGUI = productionRegulatorGUI;
+        this.autoAdjustService = autoAdjustService;
         this.buffer = buffer;
         this.producerThreadList = new LinkedList<>();
         this.propertyChangeService = new PropertyChangeService(productionRegulatorGUI, buffer);
-        this.autoAdjustTimer = new javax.swing.Timer(4000, e -> autoAdjustProducers());
+        this.autoAdjustTimer = new javax.swing.Timer(3000, e -> autoAdjustService.autoAdjustProducers(this, propertyChangeService));
     }
 
     public void addProducer() {
@@ -76,25 +78,6 @@ public class ProducerService {
             producerThread.stop();
         }
         Log.getInstance().logInfo("All producer threads have been signaled to stop.");
-    }
-
-    public void autoAdjustProducers() {
-        double lowerThreshold = 40.0;
-        double upperThreshold = 65.0;
-        double consumedRatio = buffer.consumedRatio();
-
-        if(getProducerThreadList().isEmpty()) {
-            addProducer();
-            return;
-        }
-
-        if (consumedRatio > lowerThreshold) {
-            addProducer();
-            Log.getInstance().logInfo("Too few producers! Added a new producer.");
-        } else if (consumedRatio < upperThreshold) {
-            removeProducer();
-            Log.getInstance().logInfo("Too many producers! Removed a producer.");
-        }
     }
 
     public void toggleAutoAdjust() {

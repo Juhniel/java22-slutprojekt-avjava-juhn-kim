@@ -15,7 +15,8 @@ public class Main {
 
 
         // Initialize Services
-        ProducerService producerService = new ProducerService(productionRegulatorGUI, buffer, state);
+        AutoAdjustService autoAdjustService = new AutoAdjustService(buffer, state);
+        ProducerService producerService = new ProducerService(productionRegulatorGUI,autoAdjustService, buffer, state);
         ConsumerService consumerService = new ConsumerService(buffer, state);
         StateService stateService = new StateService(producerService, consumerService, state, buffer);
         PropertyChangeService propertyChangeService = new PropertyChangeService(productionRegulatorGUI, buffer);
