@@ -3,7 +3,6 @@ package org.juhnkim.services;
 import org.juhnkim.models.Consumer;
 import org.juhnkim.models.Producer;
 import org.juhnkim.models.State;
-import org.juhnkim.utils.Log;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,8 +26,6 @@ public class AutoAdjustService {
      * @param propertyChangeService  the service monitoring buffer property changes
      */
     public void autoAdjustProducers(ProducerService producerService, PropertyChangeService propertyChangeService) {
-        double averageConsumerInterval = calculateAvgConsumerInterval();
-        double averageProducerInterval = calculateAvgProducerInterval();
         double consumedRatio = buffer.consumedRatio();
 
         // Add a producer if there are none.
@@ -54,38 +51,42 @@ public class AutoAdjustService {
     }
 
     /**
-     * Calculates the average interval between consumer actions.
-     *
-     * @return the average consumer interval
+     * Something that I might use for future for the algorithm.
      */
-    private double calculateAvgConsumerInterval() {
-        double averageConsumerInterval = 0;
-        List<Consumer> consumerList = state.getConsumerList();
 
-        if (consumerList.isEmpty()) return 0;
-
-        for(Consumer c : consumerList) {
-            averageConsumerInterval += c.getConsumerInterval();
-        }
-
-        return averageConsumerInterval/state.getConsumerList().size();
-    }
-
-    /**
-     * Calculates the average interval between producer actions.
-     *
-     * @return the average producer interval
-     */
-    private double calculateAvgProducerInterval() {
-        double averageProducerInterval = 0;
-        LinkedList<Producer> producerList = state.getProducerList();
-
-        if (producerList.isEmpty()) return 0;
-
-        for(Producer p : producerList) {
-            averageProducerInterval += p.getProducerInterval();
-        }
-
-        return averageProducerInterval/state.getProducerList().size();
-    }
+//    /**
+//     * Calculates the average interval between consumer actions.
+//     *
+//     * @return the average consumer interval
+//     */
+//    private double calculateAvgConsumerInterval() {
+//        double averageConsumerInterval = 0;
+//        List<Consumer> consumerList = state.getConsumerList();
+//        int numberOfConsumers = consumerList.size();
+//        if (consumerList.isEmpty()) return 0;
+//
+//        for(Consumer c : consumerList) {
+//            averageConsumerInterval += c.getConsumerInterval();
+//        }
+//
+//        return averageConsumerInterval/numberOfConsumers;
+//    }
+//
+//    /**
+//     * Calculates the average interval between producer actions.
+//     *
+//     * @return the average producer interval
+//     */
+//    private double calculateAvgProducerInterval() {
+//        double averageProducerInterval = 0;
+//        LinkedList<Producer> producerList = state.getProducerList();
+//        int numberOfProducers = producerList.size();
+//        if (producerList.isEmpty()) return 0;
+//
+//        for(Producer p : producerList) {
+//            averageProducerInterval += p.getProducerInterval();
+//        }
+//
+//        return averageProducerInterval/numberOfProducers;
+//    }
 }

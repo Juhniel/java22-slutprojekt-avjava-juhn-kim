@@ -8,9 +8,11 @@ import org.juhnkim.utils.Log;
  */
 public class LogService {
     private final Buffer buffer;
+    private final ProducerService producerService;
 
-    public LogService(Buffer buffer) {
+    public LogService(Buffer buffer, ProducerService producerService) {
         this.buffer = buffer;
+        this.producerService = producerService;
     }
 
 
@@ -40,6 +42,9 @@ public class LogService {
      * @param balancePercentage The current percentage fill of the buffer to evaluate the balance.
      */
     public void logProducerWarnings(double balancePercentage) {
+        if(producerService.getProducerThreadList().isEmpty()) {
+            return;
+        }
         if (balancePercentage <= 10) {
             Log.getInstance().logInfo("Amount of producers too low!");
         } else if (balancePercentage >= 90) {

@@ -4,17 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="Comments for service classes">
+    <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="Comments for Controllers / Services">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/state.dat" beforeDir="false" afterPath="$PROJECT_DIR$/files/state.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Consumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Producer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/AutoAdjustService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/AutoAdjustService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/threads/ConsumerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/threads/ConsumerThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/threads/ProducerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/threads/ProducerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/LogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/LogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/ProducerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/ProducerService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +88,7 @@
       <workItem from="1698304258486" duration="9632000" />
       <workItem from="1698395698013" duration="10420000" />
       <workItem from="1699002626591" duration="5152000" />
-      <workItem from="1699007797199" duration="13829000" />
+      <workItem from="1699007797199" duration="15682000" />
     </task>
     <task id="LOCAL−00001" summary="controller methods for buttons">
       <created>1698255713749</created>
@@ -248,7 +243,13 @@
       <option name="presentableId" value="LOCAL−00024" />
       <updated>1699022007758</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL−00025" summary="Comments for Controllers / Services">
+      <created>1699025552741</created>
+      <option name="number" value="LOCAL−00025" />
+      <option name="presentableId" value="LOCAL−00025" />
+      <updated>1699025552741</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -277,6 +278,7 @@
     <MESSAGE value="Cleanup" />
     <MESSAGE value="Calculation for autoadjustment and refractor AutoAdjustService" />
     <MESSAGE value="Comments for service classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Comments for service classes" />
+    <MESSAGE value="Comments for Controllers / Services" />
+    <option name="LAST_COMMIT_MESSAGE" value="Comments for Controllers / Services" />
   </component>
 </project>

@@ -32,7 +32,7 @@ public class ProducerService {
         this.buffer = buffer;
         this.producerThreadList = new LinkedList<>();
         this.propertyChangeService = new PropertyChangeService(productionRegulatorGUI, buffer);
-        this.autoAdjustTimer = new javax.swing.Timer(3000, e -> autoAdjustService.autoAdjustProducers(this, propertyChangeService));
+        this.autoAdjustTimer = new javax.swing.Timer(2000, e -> autoAdjustService.autoAdjustProducers(this, propertyChangeService));
     }
 
     /**

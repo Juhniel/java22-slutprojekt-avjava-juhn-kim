@@ -20,7 +20,7 @@ public class Main {
         ConsumerService consumerService = new ConsumerService(buffer, state);
         StateService stateService = new StateService(producerService, consumerService, state, buffer);
         PropertyChangeService propertyChangeService = new PropertyChangeService(productionRegulatorGUI, buffer);
-        LogService logService = new LogService(buffer);
+        LogService logService = new LogService(buffer, producerService);
 
         // Initialize Controllers
         ProducerController producerController = new ProducerController(producerService);
