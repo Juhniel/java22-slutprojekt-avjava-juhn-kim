@@ -8,6 +8,10 @@ import org.juhnkim.utils.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manages consumer lifecycle within the system. It handles initialization and restarting of consumer threads
+ * that are responsible for consuming messages from a shared buffer.
+ */
 public class ConsumerService {
     private final Buffer buffer;
     private final State state;
@@ -19,6 +23,10 @@ public class ConsumerService {
         this.consumerThreadList = new ArrayList<>();
     }
 
+    /**
+     * Initializes a random number of consumer threads between 3 and 15 and starts them.
+     * Consumers are added to the system's state for tracking.
+     */
     public void initConsumers() {
         int numConsumers = (int) (Math.random() * 13) + 3;
         for (int i = 0; i < numConsumers; i++) {
@@ -30,10 +38,14 @@ public class ConsumerService {
         System.out.println("Consumers: " + state.getConsumerList().size());
     }
 
+    /**
+     * Stops all consumer threads and restarts them. This can be used to refresh the consumer threads
+     * in response to changes in the system state or buffer.
+     */
     public void restartConsumerThreads() {
         stopAllConsumers();
+        Log.getInstance().logInfo("Consumer Thread Stopped");
 
-        // Create and start a new thread for each producer
         for (Consumer consumer : state.getConsumerList()) {
             ConsumerThread ct = new ConsumerThread(buffer, consumer);
             new Thread(ct).start();
@@ -42,10 +54,12 @@ public class ConsumerService {
         }
     }
 
+    /**
+     * Stops all consumer threads.
+     */
     private void stopAllConsumers() {
         for (ConsumerThread consumerThread : consumerThreadList) {
             consumerThread.stop();
-            Log.getInstance().logInfo("Consumer Thread Stopped");
         }
     }
 }

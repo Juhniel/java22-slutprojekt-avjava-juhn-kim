@@ -10,6 +10,10 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Manages the saving and loading of application state, providing persistence across sessions.
+ * It serializes the state of producers, consumers, and messages into a file and retrieves them.
+ */
 public class StateService {
 
     private static final String STATE_FILE_PATH = "files/state.dat";
@@ -25,6 +29,9 @@ public class StateService {
         this.buffer = buffer;
     }
 
+    /**
+     * Saves the current application state to a file.
+     */
     public synchronized void saveApplicationState() {
         state = createState(state.getProducerList(), state.getConsumerList(), buffer.getAllMessagesInBuffer());
 
@@ -39,7 +46,9 @@ public class StateService {
         }
     }
 
-    // Load the application state from a file and return it
+    /**
+     * Loads the application state from a file.
+     */
     public synchronized void loadApplicationState() {
         try {
             State loadedState = loadStateFromFile();
@@ -74,7 +83,9 @@ public class StateService {
         return state;
     }
 
-    // Helper method to clear State object
+    /**
+     * Clears the current application state.
+     */
     private void clearCurrentState(State state, Buffer buffer) {
         state.getProducerList().clear();
         state.getConsumerList().clear();
@@ -84,14 +95,18 @@ public class StateService {
         Log.getInstance().logInfo("Current state cleared successfully.");
     }
 
-    // Helper method to restart all threads
+    /**
+     * Restarts all producer and consumer threads.
+     */
     private void restartThreads() {
         producerService.restartProducerThreads();
         consumerService.restartConsumerThreads();
     }
 
 
-    // Serialize the State object to a file
+    /**
+     * Serializes the State object and writes it to a file.
+     */
     private void saveStateToFile(State state) {
         try (ObjectOutputStream oos = new ObjectOutputStream(
                 new BufferedOutputStream(new FileOutputStream(STATE_FILE_PATH))
@@ -103,7 +118,9 @@ public class StateService {
         }
     }
 
-    // Deserialize the State object from a file
+    /**
+     * Deserializes the State object from a file.
+     */
     private State loadStateFromFile() {
         try (ObjectInputStream ois = new ObjectInputStream(
                 new FileInputStream(STATE_FILE_PATH)

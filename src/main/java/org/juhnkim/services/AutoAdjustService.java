@@ -20,11 +20,18 @@ public class AutoAdjustService {
         this.state = state;
     }
 
+    /**
+     * Automatically adjusts the number of producer threads based on buffer status and consumer speed.
+     *
+     * @param producerService        the service managing producer threads
+     * @param propertyChangeService  the service monitoring buffer property changes
+     */
     public void autoAdjustProducers(ProducerService producerService, PropertyChangeService propertyChangeService) {
         double averageConsumerInterval = calculateAvgConsumerInterval();
         double averageProducerInterval = calculateAvgProducerInterval();
         double consumedRatio = buffer.consumedRatio();
 
+        // Add a producer if there are none.
         if(producerService.getProducerThreadList().isEmpty()) {
             producerService.addProducer();
             return;
@@ -33,19 +40,20 @@ public class AutoAdjustService {
         Log.getInstance().logInfo("Average ConsumerInterval: " + averageConsumerInterval);
         Log.getInstance().logInfo("Average ProducerInterval: " + averageProducerInterval);
 
-        // Get the target buffer fill percentage and current buffer status
-        final double targetFillPercentage = 50.0; // buffer target fill rate
-        double currentFillPercentage = propertyChangeService.getBalancePercentage();
 
+        final double targetFillPercentage = 50.0;
+        double currentFillPercentage = propertyChangeService.getBalancePercentage();
         Log.getInstance().logInfo("CurrentFillPercentage: " + currentFillPercentage);
+
+        // Define upper and lower bounds for the buffer's fill percentage
         double pBarHigher = targetFillPercentage*1.10;
         double pBarLower = targetFillPercentage*0.90;
 
         Log.getInstance().logInfo("pBarHigher: " + pBarHigher);
         Log.getInstance().logInfo("pBarLower: " + pBarLower);
 
-        // Kolla först om currentFill är runt 50
-        if (currentFillPercentage < pBarLower && consumedRatio >= 100) { // OM progressbar är MINDRE än 40 & consumer konsumerar mer än 100%
+        // Adjust producer count based on the current fill percentage and consumed ratio.
+        if (currentFillPercentage < pBarLower && consumedRatio >= 100) {
             producerService.addProducer();
 
         } else if(currentFillPercentage > pBarHigher && consumedRatio < 100) {
@@ -56,10 +64,11 @@ public class AutoAdjustService {
         Log.getInstance().logInfo("Current Consumer Count: " + state.getConsumerList().size());
     }
 
-
-
-
-
+    /**
+     * Calculates the average interval between consumer actions.
+     *
+     * @return the average consumer interval
+     */
     private double calculateAvgConsumerInterval() {
         double averageConsumerInterval = 0;
         List<Consumer> consumerList = state.getConsumerList();
@@ -71,6 +80,11 @@ public class AutoAdjustService {
         return averageConsumerInterval/state.getConsumerList().size();
     }
 
+    /**
+     * Calculates the average interval between producer actions.
+     *
+     * @return the average producer interval
+     */
     private double calculateAvgProducerInterval() {
         double averageProducerInterval = 0;
         LinkedList<Producer> producerList = state.getProducerList();
