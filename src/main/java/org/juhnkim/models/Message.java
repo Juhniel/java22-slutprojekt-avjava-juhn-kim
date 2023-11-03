@@ -1,6 +1,5 @@
 package org.juhnkim.models;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;

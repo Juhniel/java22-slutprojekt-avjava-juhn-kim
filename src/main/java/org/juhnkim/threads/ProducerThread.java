@@ -8,6 +8,9 @@ import org.juhnkim.utils.Log;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Runnable implementation for a Producer thread that produces messages at a fixed interval.
+ */
 public class ProducerThread implements Runnable {
     private final Buffer buffer;
     private final Producer producer;

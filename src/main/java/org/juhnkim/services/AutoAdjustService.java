@@ -37,20 +37,12 @@ public class AutoAdjustService {
             return;
         }
 
-        Log.getInstance().logInfo("Average ConsumerInterval: " + averageConsumerInterval);
-        Log.getInstance().logInfo("Average ProducerInterval: " + averageProducerInterval);
-
-
         final double targetFillPercentage = 50.0;
         double currentFillPercentage = propertyChangeService.getBalancePercentage();
-        Log.getInstance().logInfo("CurrentFillPercentage: " + currentFillPercentage);
 
         // Define upper and lower bounds for the buffer's fill percentage
         double pBarHigher = targetFillPercentage*1.10;
         double pBarLower = targetFillPercentage*0.90;
-
-        Log.getInstance().logInfo("pBarHigher: " + pBarHigher);
-        Log.getInstance().logInfo("pBarLower: " + pBarLower);
 
         // Adjust producer count based on the current fill percentage and consumed ratio.
         if (currentFillPercentage < pBarLower && consumedRatio >= 100) {
@@ -59,9 +51,6 @@ public class AutoAdjustService {
         } else if(currentFillPercentage > pBarHigher && consumedRatio < 100) {
             producerService.removeProducer();
         }
-
-        Log.getInstance().logInfo("Current Consumer Producer: " + state.getProducerList().size());
-        Log.getInstance().logInfo("Current Consumer Count: " + state.getConsumerList().size());
     }
 
     /**
@@ -72,6 +61,8 @@ public class AutoAdjustService {
     private double calculateAvgConsumerInterval() {
         double averageConsumerInterval = 0;
         List<Consumer> consumerList = state.getConsumerList();
+
+        if (consumerList.isEmpty()) return 0;
 
         for(Consumer c : consumerList) {
             averageConsumerInterval += c.getConsumerInterval();
@@ -88,6 +79,8 @@ public class AutoAdjustService {
     private double calculateAvgProducerInterval() {
         double averageProducerInterval = 0;
         LinkedList<Producer> producerList = state.getProducerList();
+
+        if (producerList.isEmpty()) return 0;
 
         for(Producer p : producerList) {
             averageProducerInterval += p.getProducerInterval();

@@ -7,6 +7,10 @@ import org.juhnkim.views.ProductionRegulatorGUI;
 
 import javax.swing.*;
 
+/**
+ * MainController orchestrates interactions between the user interface and the underlying services.
+ * It implements the LogEventListenerInterface to handle log events and updates the UI accordingly.
+ */
 public class MainController implements LogEventListenerInterface {
     private final StateController stateController;
     private final ProducerController producerController;
@@ -47,38 +51,67 @@ public class MainController implements LogEventListenerInterface {
         productionRegulatorGUI.getAutoAdjustButton().addActionListener(e -> toggleAutoAdjust());
     }
 
+    /**
+     * Initializes the consumers by invoking the consumer controllers initialize method.
+     */
     public void initConsumers() {
         consumerController.initialize();
     }
 
+    /**
+     * Adds a producer by invoking the producer controller's addProducer method.
+     */
     public void addProducer() {
         producerController.addProducer();
     }
 
+    /**
+     * Removes a producer by invoking the producer controller's removeProducer method.
+     */
     public void removeProducer() {
         producerController.removeProducer();
     }
 
+    /**
+     * Saves the current state by invoking the state controller's saveCurrentState method.
+     */
     public void saveCurrentState() {
         stateController.saveCurrentState();
     }
 
+    /**
+     * Loads a saved state by invoking the state controller's loadSavedState method.
+     */
     public void loadSavedState() {
         stateController.loadSavedState();
     }
 
+    /**
+     * Logs producer warnings by invoking the log controller's logProducerWarnings method.
+     */
     public void logProducerWarnings() {
         logController.logProducerWarnings(propertyChangeService.getBalancePercentage());
     }
 
+    /**
+     * Logs the consumed to producer ratio by invoking the log controller's logConsumedToProducerRatio method.
+     */
     public void logConsumedToProducerRatio() {
         logController.logConsumedToProducerRatio();
     }
 
+    /**
+     * Toggles the auto-adjust feature by invoking the producer controller's toggleAutoAdjust method.
+     */
     public void toggleAutoAdjust() {
         producerController.toggleAutoAdjust();
     }
 
+    /**
+     * Handles log events by updating the GUI with the log message.
+     *
+     * @param message the log message received
+     */
     @Override
     public void onLogEvent(String message) {
         SwingUtilities.invokeLater(() -> {

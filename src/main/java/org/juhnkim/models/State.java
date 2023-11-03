@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Represents the state of the system with lists of producers, consumers, and messages.
+ * This class is serializable to allow saving and loading of the system state.
+ */
 public class State implements Serializable {
-    private static final long serialVersionUID = -3616798157854925332L;
 
     private LinkedList<Producer> producerList;
     private List<Consumer> consumerList;
@@ -27,6 +30,11 @@ public class State implements Serializable {
         this.messageList = messageList;
     }
 
+    /**
+     * Updates the state with the values from a new state object.
+     *
+     * @param newState the new state to copy values from
+     */
     public void updateState(State newState) {
         setProducerList(newState.getProducerList());
         setConsumerList(newState.getConsumerList());
