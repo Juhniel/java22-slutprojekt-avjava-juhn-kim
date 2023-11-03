@@ -74,25 +74,19 @@ public class StateService {
         return state;
     }
 
-//    private State createState(LinkedList<Producer> producers, List<Consumer> consumers, List<Message> messages) {
-//        State state = new State();
-//        state.setProducerList(producers);
-//        state.setConsumerList(consumers);
-//        state.setMessageList(messages);
-//        return state;
-//    }
-
     // Helper method to clear State object
     private void clearCurrentState(State state, Buffer buffer) {
         state.getProducerList().clear();
         state.getConsumerList().clear();
+        Log.getInstance().logInfo("Buffer size: " + buffer.getAllMessagesInBuffer().size());
         buffer.clear();
+        Log.getInstance().logInfo("Buffer size: " + buffer.getAllMessagesInBuffer().size());
         Log.getInstance().logInfo("Current state cleared successfully.");
     }
 
     // Helper method to restart all threads
     private void restartThreads() {
-        producerService.restartProducerThreads(state);
+        producerService.restartProducerThreads();
         consumerService.restartConsumerThreads();
     }
 

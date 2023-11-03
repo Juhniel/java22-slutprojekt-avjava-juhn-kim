@@ -31,6 +31,7 @@ public class ProducerService {
     public void addProducer() {
         Producer producer = new Producer();
         state.getProducerList().add(producer);
+
         ProducerThread producerThread = new ProducerThread(buffer, producer);
         producerThreadList.add(producerThread);
         new Thread(producerThread).start();
@@ -41,11 +42,9 @@ public class ProducerService {
 
     public void removeProducer() {
         if (!producerThreadList.isEmpty()) {
-            // Stop the last thread
             ProducerThread lastProducerThread = producerThreadList.removeLast();
             lastProducerThread.stop();
 
-            // Now remove the producer from the state
             if (!state.getProducerList().isEmpty()) {
                 state.getProducerList().removeLast();
             }
@@ -55,14 +54,14 @@ public class ProducerService {
         }
     }
 
-    public void restartProducerThreads(State loadedState) {
+    public void restartProducerThreads() {
         Log.getInstance().logInfo("Stopping all producers before restart.");
-        Log.getInstance().logInfo("inside restartProducerThreads(): " + loadedState.getProducerList().size());
+        stopAllProducers();
 
         if (state.getProducerList().isEmpty()) {
             Log.getInstance().logInfo("No producers to start.");
         }
-        for (Producer producer : loadedState.getProducerList()) {
+        for (Producer producer : state.getProducerList()) {
             ProducerThread producerThread = new ProducerThread(buffer, producer);
             new Thread(producerThread).start();
             producerThreadList.add(producerThread);
@@ -71,7 +70,7 @@ public class ProducerService {
         Log.getInstance().logInfo("All producer threads restarted.");
     }
 
-    public void stopAllProducers() {
+    private void stopAllProducers() {
         Log.getInstance().logInfo("Stopping producer thread.");
         for (ProducerThread producerThread : producerThreadList) {
             producerThread.stop();
@@ -80,13 +79,19 @@ public class ProducerService {
     }
 
     public void autoAdjustProducers() {
-        double lowerThreshold = 35.0;
+        double lowerThreshold = 40.0;
         double upperThreshold = 65.0;
-        double balancePercentage = propertyChangeService.getBalancePercentage();
-        if (balancePercentage < lowerThreshold) {
+        double consumedRatio = buffer.consumedRatio();
+
+        if(getProducerThreadList().isEmpty()) {
+            addProducer();
+            return;
+        }
+
+        if (consumedRatio > lowerThreshold) {
             addProducer();
             Log.getInstance().logInfo("Too few producers! Added a new producer.");
-        } else if (balancePercentage > upperThreshold) {
+        } else if (consumedRatio < upperThreshold) {
             removeProducer();
             Log.getInstance().logInfo("Too many producers! Removed a producer.");
         }

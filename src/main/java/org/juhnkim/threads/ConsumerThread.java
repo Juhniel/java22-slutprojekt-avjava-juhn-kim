@@ -27,7 +27,6 @@ public class ConsumerThread implements Runnable, Serializable {
             try {
                 Thread.sleep(consumer.getConsumerInterval());
                 buffer.remove();
-                System.out.println("Consumed");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

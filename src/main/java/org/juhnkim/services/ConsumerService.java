@@ -32,7 +32,6 @@ public class ConsumerService {
     }
 
     public void restartConsumerThreads() {
-        // Stop and remove all existing threads first, if any
         stopAllConsumers();
 
         // Create and start a new thread for each producer

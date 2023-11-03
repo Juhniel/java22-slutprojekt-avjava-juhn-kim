@@ -28,13 +28,11 @@ public class ProducerThread implements Runnable {
     @Override
     public void run() {
         String text = "Random text";
-        Log.getInstance().logInfo("Producer Thread - Starting");
         Log.getInstance().logInfo("Producer will sleep for " + producer.getProducerInterval() + " milliseconds before producing the next message");
         while (isRunning) {
             try {
                 Thread.sleep(producer.getProducerInterval());
                 buffer.add(new Message(text, LocalDate.now(), LocalTime.now()));
-                System.out.println("Producing");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

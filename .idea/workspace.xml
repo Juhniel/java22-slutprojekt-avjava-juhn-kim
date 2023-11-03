@@ -4,15 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="cleanup - Fixed states and resetting threads">
+    <list default="true" id="d2527ca4-24bb-4e42-a7db-15ca1633fdb9" name="Changes" comment="Loading state works properly">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/LogService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/files/state.dat" beforeDir="false" afterPath="$PROJECT_DIR$/files/state.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Consumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/Producer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/models/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/LogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/LogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/StateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/controllers/StateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Buffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/Buffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/ConsumerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/ConsumerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/ProducerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/ProducerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/PropertyChangeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/PropertyChangeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/StateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/services/StateService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/threads/ConsumerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/threads/ConsumerThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juhnkim/threads/ProducerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juhnkim/threads/ProducerThread.java" afterDir="false" />
@@ -223,7 +225,13 @@
       <option name="presentableId" value="LOCAL−00020" />
       <updated>1698956074363</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL−00021" summary="Loading state works properly">
+      <created>1698963601607</created>
+      <option name="number" value="LOCAL−00021" />
+      <option name="presentableId" value="LOCAL−00021" />
+      <updated>1698963601607</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -248,6 +256,7 @@
     <MESSAGE value="Refractor controllers + services" />
     <MESSAGE value="Refractor and helper methods for loading state" />
     <MESSAGE value="cleanup - Fixed states and resetting threads" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleanup - Fixed states and resetting threads" />
+    <MESSAGE value="Loading state works properly" />
+    <option name="LAST_COMMIT_MESSAGE" value="Loading state works properly" />
   </component>
 </project>

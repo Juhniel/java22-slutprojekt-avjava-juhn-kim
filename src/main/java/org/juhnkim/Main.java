@@ -19,14 +19,15 @@ public class Main {
         ConsumerService consumerService = new ConsumerService(buffer, state);
         StateService stateService = new StateService(producerService, consumerService, state, buffer);
         PropertyChangeService propertyChangeService = new PropertyChangeService(productionRegulatorGUI, buffer);
+        LogService logService = new LogService(buffer);
 
         // Initialize Controllers
         ProducerController producerController = new ProducerController(producerService);
         ConsumerController consumerController = new ConsumerController(consumerService);
         StateController stateController = new StateController(stateService);
-        LogController logController = new LogController(buffer);
+        LogController logController = new LogController(logService);
 
-
+        // Inject into MainController
         new MainController(stateController, producerController, consumerController, propertyChangeService, productionRegulatorGUI, logController);
         productionRegulatorGUI.getFrame().setVisible(true);
 

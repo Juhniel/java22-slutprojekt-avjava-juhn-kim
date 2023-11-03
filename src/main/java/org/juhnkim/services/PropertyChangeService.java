@@ -24,8 +24,9 @@ public class PropertyChangeService implements PropertyChangeListener {
      * Updates the progress bar on the GUI based on buffer fill level.
      */
     public void updateProgressBar() {
-        balancePercentage = ((double) buffer.getMessageCount() / buffer.getCapacity() * 100);
-        productionRegulatorGUI.updateProgressBar(balancePercentage);
+        balancePercentage = (double) buffer.getMessageCount() / buffer.getCapacity() * 100;
+        balancePercentage = Math.min(balancePercentage, 100.0);
+        productionRegulatorGUI.updateProgressBar((int)balancePercentage);
     }
 
     @Override

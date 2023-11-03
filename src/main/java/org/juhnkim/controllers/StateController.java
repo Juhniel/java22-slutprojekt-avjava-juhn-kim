@@ -14,12 +14,10 @@ public class StateController {
         this.stateService = stateService;
     }
 
-    // Method to trigger saving the current state of the application
     public void saveCurrentState() {
         stateService.saveApplicationState();
     }
 
-    // Method to trigger loading the saved state of the application
     public void loadSavedState() {
         stateService.loadApplicationState();
     }

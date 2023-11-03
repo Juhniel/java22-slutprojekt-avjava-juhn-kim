@@ -41,21 +41,20 @@ public class Buffer implements Serializable {
         this.queue.addAll(messages);
     }
 
-    public synchronized Message remove() {
+    public synchronized void remove() {
         while (queue.isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                return null;
+                return;
             }
         }
         int queueSize = queue.size();
-        Message message = queue.remove();
+        queue.remove();
         consumedMessages++;
         int newQueueSize = queue.size();
         support.firePropertyChange("messageCount", queueSize, newQueueSize);
-        return message;
     }
 
     public synchronized void clear() {
@@ -67,6 +66,10 @@ public class Buffer implements Serializable {
 
     public synchronized LinkedList<Message> getAllMessagesInBuffer() {
         return new LinkedList<>(queue);
+    }
+
+    public double consumedRatio() {
+        return ((double) getConsumedMessages() / getProducedMessages()) * 100;
     }
 
     public int getMessageCount() {
