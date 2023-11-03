@@ -7,18 +7,24 @@ Our simulation is not only a technical representation but also a visual one, ena
 and observe the results of their changes.
 
 # Introduction
-The producer-consumer problem is a standard example of a multi-process synchronization issue, 
+The producer-consumer problem is a standard example of a multiprocess synchronization issue, 
 involving coordinating producers (who generate data) and consumers (who use that data). In our simulation, 
 we ensure thread safety and manage state between these actors to prevent race conditions and deadlocks.
 
 The core components of this project are modeled in separate packages:
 
 **Models:** Define the essential objects such as Producer, Consumer, and Message.
+
 **Interfaces:** Re-usable log interface for custom logging events.
+
 **Threads:** Encapsulate the running threads for producers and consumers.
+
 **Controllers:** Handle the business logic, tying the models and views together.
+
 **Views:** Provide the graphical user interface (GUI) for user interaction.
+
 **Services:** Offer utility functions such as state management and property change notification.
+
 **Utils:** Include helper functions, such as logging mechanisms.
 
 # Features
@@ -53,3 +59,14 @@ An intelligent auto-adjust feature uses the property change system to automatica
 
 **Monitor Logs:** View real-time logs for producer-consumer activities and system warnings.
 
+
+# Patterns
+**MVC Pattern**
+
+**Singleton Pattern**
+
+**Observer Pattern** (With PropertyChangeService since Observer is deprecated)
+
+**Factory Pattern**
+
+**Dependency Injection**
